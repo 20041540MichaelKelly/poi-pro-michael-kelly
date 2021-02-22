@@ -1,0 +1,21 @@
+<div class="uk-margin uk-width-2xlarge uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+    <table class="uk-table">
+        <caption>
+            Places of Interest
+        </caption>
+        <thead>
+        <th>Name</th>
+        <th>Description</th>
+        </thead>
+        <tbody class="uk-text-left">
+        {{#each pois}}
+            <tr>
+                <td> {{name}} </td>
+                <td> {{description}} </td>
+            </tr>
+        {{/each}}
+        <tr>
+        </tr>
+        </tbody>
+    </table>
+</div>
