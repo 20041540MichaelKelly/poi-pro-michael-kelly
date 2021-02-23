@@ -10,8 +10,8 @@ const Handlebars = require('handlebars');
 const Cookie = require("@hapi/cookie");
 
 const server = Hapi.server({
-  port: process.env.PORT || 3000
- // host: 'localhost',
+  port: process.env.PORT || 3000,
+  host: 'localhost',
 });
 
 require('./app/models/db');
