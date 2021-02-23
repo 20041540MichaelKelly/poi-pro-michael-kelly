@@ -1,13 +1,15 @@
 <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
-    {{> title-card title="Places of Interests Home" subTitle="Welcome to Home"}}
+    {{> title-card title="Place of Interest" subTitle="POI's"}}
     {{> main-menu }}
 </div>
 
 <div class="uk-container uk-margin">
     <div class="uk-child-width-expand uk-flex-center uk-flex-middle uk-text-center" uk-grid>
-        <div class="uk-width-auto@m">
-            <img width="300" src="images/map3.jpg" />
+        <div class="uk-width-expand@m">
+            {{> poi-list}}
         </div>
-        <div class="uk-width-expand@m">{{> poi-add}}</div>
+        <div class="uk-width-auto@m">
+            <img width="300" src="images/map4.jpg">
+        </div>
     </div>
 </div>
