@@ -1,32 +1,30 @@
 {
   "name": "poi-pro-michael-kelly-20041540",
   "version": "1.0.0",
-  "description": "A college project for Enterprise Web Development",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/20041540MichaelKelly"
-  },
-  "author": "Michael Kelly",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hapi/boom": "^9.1.1",
-    "@hapi/cookie": "^11.0.2",
-    "@hapi/hapi": "^20.1.0",
-    "@hapi/inert": "^6.0.3",
-    "@hapi/vision": "^6.0.1",
+    "@hapi/boom": "^9.0.0",
+    "@hapi/cookie": "^11.0.0",
+    "@hapi/hapi": "^19.0.5",
+    "@hapi/inert": "^6.0.1",
+    "@hapi/joi": "^17.1.0",
+    "@hapi/vision": "^6.0.0",
     "dotenv": "^8.2.0",
-    "handlebars": "^4.7.7",
-    "mongoose": "^5.11.17"
+    "handlebars": "^4.7.2",
+    "mongoose": "^5.8.10"
   },
   "devDependencies": {
-    "prettier": "^2.2.1"
+    "prettier": "^1.19.1"
   },
   "prettier": {
+    "singleQuote": true,
     "printWidth": 120
   }
 }
