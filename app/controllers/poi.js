@@ -28,6 +28,53 @@ const POI = {
       return h.redirect("/poiList");
     },
   },
+  delete: {
+    auth: false,
+    handler: async function(req, h) {
+      try {
+        const id = req.params.id;
+        console.log(id);
+        await Poidb.findByIdAndDelete(id).lean();
+        //  return h.response(user);
+        // await user.save();
+        return h.redirect("/poiList");
+      } catch (err) {
+        return h.view("main", { errors: [{ message: err.message }] });
+      }
+      // }
+    }
+  },
+  edit: {
+    auth: false,
+    handler: async function(request, h) {
+      try {
+        const result = await Poidb.findByIdAndUpdate(
+          request.params.id,
+          request.payload,
+          { new: true }
+        ).lean();
+        //return h.response(result);
+        console.log(result);
+        return h.view("updatePoi", { poi: result });
+      } catch (error) {
+        return h.response(error).code(500);
+      }
+    }
+  },
+  updatePoi: {
+    auth: false,
+    handler: async function(request, h) {
+      const id = request.params.id;
+      const use = await Poidb.findById(id);
+      const data = request.payload;
+      use.title = data.title;
+      use.description = data.description;
+
+      await use.save();
+
+      return h.redirect("/poiList");
+    }
+  }
 };
 
 module.exports = POI;

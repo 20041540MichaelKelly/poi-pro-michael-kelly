@@ -17,7 +17,9 @@ module.exports = [
   { method: "GET", path: "/poiList", config: POI.poiList },
   { method: 'POST', path: '/poiAdd', config: POI.poiAdd },
 
-
+  { method: 'GET', path: '/edit/{id}', config: POI.edit },
+  { method: 'POST', path: '/delete/{id}', config: POI.delete },
+  { method: 'POST', path: '/updatePoi/{id}', config: POI.updatePoi },
   {
     method: "GET",
     path: "/{param*}",
