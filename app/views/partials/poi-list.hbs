@@ -12,6 +12,16 @@
             <tr>
                 <td> {{name}} </td>
                 <td> {{description}} </td>
+                <td>
+                    <form action="/delete/{{_id}}" method="POST" >
+                        <button class="uk-button uk-button-danger">Primary</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/edit/{{_id}}" method="GET" >
+                        <button class="uk-button uk-button-primary">Primary</button>
+                    </form>
+                </td>
             </tr>
         {{/each}}
         <tr>

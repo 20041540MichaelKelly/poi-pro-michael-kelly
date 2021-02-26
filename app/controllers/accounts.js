@@ -94,6 +94,7 @@ const Accounts = {
       return h.redirect("/settings");
     }
   }
+
 };
 
 module.exports = Accounts;
