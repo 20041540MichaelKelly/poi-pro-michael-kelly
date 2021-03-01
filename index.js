@@ -3,6 +3,7 @@
 
 const Hapi = require('@hapi/hapi');
 const dotenv = require('dotenv');
+const Joi = require("@hapi/joi");
 
 const result = dotenv.config();
 if (result.error) {
@@ -21,7 +22,7 @@ async function init() {
   await server.register(require('@hapi/vision'));
   await server.register(require('@hapi/cookie'));
 
-  server.validator(require('@hapi/joi'))
+  server.validator(require("@hapi/joi"));
 
   server.auth.strategy('session', 'cookie', {
     cookie: {
