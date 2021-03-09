@@ -12,6 +12,7 @@
             <tr>
                 <td> {{name}} </td>
                 <td> {{description}} </td>
+                <td> <img src="{{imagefile}}"></td>
                 <td>
                     <form action="/delete/{{_id}}" method="POST" >
                         <button class="uk-button uk-button-danger">Primary</button>
@@ -24,8 +25,6 @@
                 </td>
             </tr>
         {{/each}}
-        <tr>
-        </tr>
         </tbody>
     </table>
 </div>

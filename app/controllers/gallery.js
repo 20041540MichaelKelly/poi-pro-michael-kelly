@@ -3,12 +3,13 @@
 const ImageStore = require('../utils/image-store');
 
 const Gallery = {
-  index: {
+  pindex: {
     handler: async function(request, h) {
       try {
         const allImages = await ImageStore.getAllImages();
+        console.log(allImages);
         return h.view('gallery', {
-          title: 'Cloudinary Gallery',
+          title: 'Gallery',
           images: allImages
         });
       } catch (err) {
@@ -23,7 +24,7 @@ const Gallery = {
         const file = request.payload.imagefile;
         if (Object.keys(file).length > 0) {
           await ImageStore.uploadImage(request.payload.imagefile);
-          return h.redirect('/');
+          return h.redirect('/pindex');
         }
         return h.view('gallery', {
           title: 'Cloudinary Gallery',
@@ -45,7 +46,7 @@ const Gallery = {
     handler: async function(request, h) {
       try {
         await ImageStore.deleteImage(request.params.id);
-        return h.redirect('/');
+        return h.redirect('/pindex');
       } catch (err) {
         console.log(err);
       }
