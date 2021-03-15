@@ -25,6 +25,9 @@ module.exports = [
   { method: 'GET', path: '/pindex', config: Gallery.pindex },
   { method: 'POST', path: '/uploadfile', config: Gallery.uploadFile },
   { method: 'GET', path: '/deleteimage/{id}', config: Gallery.deleteImage },
+
+  { method: "GET", path: "/adminHome", config: POI.adminHome },
+  { method: "GET", path: "/userList", config: POI.userList },
   {
     method: "GET",
     path: "/{param*}",
