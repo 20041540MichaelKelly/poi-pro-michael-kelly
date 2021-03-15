@@ -64,7 +64,7 @@ const Accounts = {
   showLogin: {
     auth: false,
     handler: function(request, h) {
-      return h.view('login', { title: 'Login to Donations' });
+      return h.view('login', { title: 'Login to POI' });
     }
   },
   login: {
@@ -89,15 +89,23 @@ const Accounts = {
     },
     handler: async function (request, h) {
       const { email, password } = request.payload;
+
       try {
         let user = await User.findByEmail(email);
+
         if (!user) {
           const message = "Email address is not registered";
           throw Boom.unauthorized(message);
-        }
-        user.comparePassword(password);
-        request.cookieAuth.set({ id: user.id });
-        return h.redirect("/home");
+        } else if (email === "breda@gmail.com") {
+          console.log(email);
+          user.comparePassword(password);
+
+          request.cookieAuth.set({ id: user.id });
+          return h.redirect("/adminHome");
+        } else {
+          user.comparePassword(password);
+          request.cookieAuth.set({ id: user.id });
+          return h.redirect("/home");}
       } catch (err) {
         return h.view("login", { errors: [{ message: err.message }] });
       }
@@ -114,7 +122,7 @@ const Accounts = {
       try {
         const id = request.auth.credentials.id;
         const user = await User.findById(id).lean();
-        return h.view("settings", { title: "Donation Settings", user: user });
+        return h.view("settings", { title: "POI Settings", user: user });
       } catch (err) {
         return h.view("login", { errors: [{ message: err.message }] });
       }
