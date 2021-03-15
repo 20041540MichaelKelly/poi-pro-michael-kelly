@@ -6,9 +6,6 @@
         <thead>
         <th>Name</th>
         <th>Description</th>
-        <th>Image</th>
-        <th>Category</th>
-        <th>Creator</th>
         </thead>
         <tbody class="uk-text-left">
         {{#each pois}}
@@ -16,16 +13,14 @@
                 <td> {{name}} </td>
                 <td> {{description}} </td>
                 <td> <img src="{{imagefile}}"></td>
-                <td> {{categories}}</td>
-                <td> {{person.firstName}} {{person.lastName}}</td>
                 <td>
                     <form action="/delete/{{_id}}" method="POST" >
-                        <button class="uk-button uk-button-danger">Delete</button>
+                        <button class="uk-button uk-button-danger">Primary</button>
                     </form>
                 </td>
                 <td>
                     <form action="/edit/{{_id}}" method="GET" >
-                        <button class="uk-button uk-button-primary">Edit</button>
+                        <button class="uk-button uk-button-primary">Primary</button>
                     </form>
                 </td>
             </tr>

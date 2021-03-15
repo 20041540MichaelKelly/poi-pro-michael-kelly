@@ -23,12 +23,4 @@ userSchema.methods.comparePassword = function(candidatePassword) {
   return this;
 };
 
-userSchema.methods.adminEmail = function(adEmail) {
-  const isMatch = this.email === 'breda@gmail.com';
-  if (!isMatch) {
-    throw Boom.unauthorized('Password mismatch');
-  }
-  return this;
-};
-
 module.exports = Mongoose.model("User", userSchema);
