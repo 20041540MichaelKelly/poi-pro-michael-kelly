@@ -159,8 +159,13 @@ const POI = {
     handler: async function (request, h) {
       const id = request.auth.credentials.id;
       const userss = await User.findById(id);
-      console.log(userss);
-      return h.view("adminHome", { title: "Admin Home", userss: userss.firstName  });
+      //console.log(userss);
+      const noOf = await User.find().lean().countDocuments(function(err, count){
+       // console.log("Number of docs: ", count );
+      });
+      //const noOf = no.countDocuments({firstName:"Michael"});
+      console.log(noOf);
+      return h.view("adminHome", { title: "Admin Home", userss: userss.firstName, noOf: noOf  });
     },
   },
 
