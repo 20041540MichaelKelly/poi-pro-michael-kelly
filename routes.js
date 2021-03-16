@@ -28,6 +28,7 @@ module.exports = [
 
   { method: "GET", path: "/adminHome", config: POI.adminHome },
   { method: "GET", path: "/userList", config: POI.userList },
+  { method: 'POST', path: '/deleteUser/{id}', config: POI.deleteUser },
   {
     method: "GET",
     path: "/{param*}",

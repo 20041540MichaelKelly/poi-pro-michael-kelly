@@ -4,7 +4,7 @@
             User List
         </caption>
         <thead>
-        <th>Name</th>
+        <th>F, Name</th>
         <th>L, Name</th>
         <th>Email</th>
         </thead>
@@ -15,13 +15,8 @@
                 <td> {{lastName}} </td>
                 <td> {{email}} </td>
                 <td>
-                    <form action="/delete/{{_id}}" method="POST" >
+                    <form action="/deleteUser/{{_id}}" method="POST" >
                         <button class="uk-button uk-button-danger">Delete</button>
-                    </form>
-                </td>
-                <td>
-                    <form action="/edit/{{_id}}" method="GET" >
-                        <button class="uk-button uk-button-primary">Edit</button>
                     </form>
                 </td>
             </tr>

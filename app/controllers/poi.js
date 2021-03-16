@@ -8,6 +8,9 @@ const writeFile = util.promisify(fs.writeFile);
 const User = require("../models/user");
 const Boom = require("@hapi/boom");
 const Joi = require('@hapi/joi');
+const axios = require("axios");
+const apiKey = process.env.apiKey;
+const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=Tramore,Ireland&appid=${apiKey}`;
 
 const POI = {
   home: {
@@ -19,9 +22,20 @@ const POI = {
   poiList: {
     handler: async function (request, h) {
       const pois = await Poidb.find().sort("categories").populate("person").lean();
+      let weather = null;
+      const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${pois.location}&appid=${apiKey}`;
+      try {
+        const response = await axios.get(weatherRequest);
+        if (response.status == 200) {
+          weather = response.data
+        }
+      } catch (error) {
+        console.log(error);
+      }
       return h.view("poiList", {
         title: "POI of Islands",
         pois: pois,
+       // weather: weather
       });
     },
   },
@@ -30,7 +44,8 @@ const POI = {
         payload: {
           name: Joi.string().required(),
           description: Joi.string().required(),
-          imagefile: Joi.string().required(),
+          location: Joi.string().required(),
+          imagefile: Joi.any().required(),
           categories: Joi.string().required(),
         },
         options: {
@@ -46,7 +61,7 @@ const POI = {
             .code(400);
         },
       },
-      auth: false,
+     // auth: false,
     handler: async function (request, h) {
       try {
         const data = request.payload;
@@ -54,6 +69,7 @@ const POI = {
         const file = request.payload.imagefile;
         const id = request.auth.credentials.id;
         const user = await User.findById(id);
+        console.log(id);
 
         if (Object.keys(file).length > 0) {
           await writeFile('./public/temp.img', file);
@@ -62,9 +78,11 @@ const POI = {
           const newPoi = new Poidb({
             name: data.name,
             description: data.description,
+            location: data.location,
             imagefile: ans.secure_url,
             person: user._id,
-            categories: data.categories
+            categories: data.categories,
+           // weather: weather.weather[0].description
             });
           await newPoi.save();
           console.log(newPoi);
@@ -163,9 +181,13 @@ const POI = {
       const noOf = await User.find().lean().countDocuments(function(err, count){
        // console.log("Number of docs: ", count );
       });
+      const noOfPoi = await Poidb.find().lean().countDocuments(function(err, count){
+        // console.log("Number of docs: ", count );
+      });
       //const noOf = no.countDocuments({firstName:"Michael"});
       console.log(noOf);
-      return h.view("adminHome", { title: "Admin Home", userss: userss.firstName, noOf: noOf  });
+      console.log(noOfPoi)
+      return h.view("adminHome", { title: "Admin Home", userss: userss.firstName, noOf: noOf, noOfPoi: noOfPoi  });
     },
   },
 
@@ -178,6 +200,42 @@ const POI = {
       });
     },
   },
+
+  deleteUser: {
+    auth: false,
+    handler: async function(req, h) {
+      try {
+        const id = req.params.id;
+        console.log(id);
+        await User.findByIdAndDelete(id).lean();
+        //  return h.response(user);
+        // await user.save();
+        return h.redirect("/userList");
+      } catch (err) {
+        return h.view("main", { errors: [{ message: err.message }] });
+      }
+      // }
+    }
+  },
+
+
+  handler: async function getWeather() {
+    let weather = {};
+    const response = await axios.get(weatherRequest)
+    if (response.status == 200) {
+      weather = response.data
+    }
+
+    const report = {
+      feelsLike : Math.round(weather.main.feels_like -273.15),
+      clouds : weather.weather[0].description,
+      windSpeed: weather.wind.speed,
+      windDirection: weather.wind.deg,
+      visibility: weather.visibility/1000,
+      humidity : weather.main.humidity
+    };
+   // renderWeather(report)
+  }
 };
 
 module.exports = POI;
