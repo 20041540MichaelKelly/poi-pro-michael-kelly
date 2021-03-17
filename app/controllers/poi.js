@@ -10,7 +10,6 @@ const Boom = require("@hapi/boom");
 const Joi = require('@hapi/joi');
 const axios = require("axios");
 const apiKey = process.env.apiKey;
-const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=Tramore,Ireland&appid=${apiKey}`;
 
 const POI = {
   home: {
@@ -139,6 +138,7 @@ const POI = {
       payload: {
         name: Joi.string().required(),
         description: Joi.string().required(),
+        location: Joi.string().required(),
       },
       options: {
         abortEarly: false,
@@ -158,11 +158,19 @@ const POI = {
       const id = request.params.id;
       const use = await Poidb.findById(id);
       const data = request.payload;
+      let weathers = null;
+      const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${data.location}&appid=${apiKey}`;
+      const response = await axios.get(weatherRequest);
+      if (response.status == 200) {
+        weathers = response.data
+        console.log(weathers);
+      }
+      console.log(weathers);
 
         use.name = data.name;
         use.description = data.description;
-       // use.imagefile = ans.secure_url;
-        //use.person = data.person._id;
+        use.location = data.location;
+        use.weather = weathers.weather[0].description;
 
         await use.save();
 
@@ -214,21 +222,16 @@ const POI = {
       // }
     }
   },
-  readWeather: {
-    handler: async function(location) {
-      let weather = null;
-      const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`;
-      try {
-        const response = await axios.get(weatherRequest);
-        if (response.status == 200) {
-          weather = response.data
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      return weather;
-    }
-  }
+  adminPoiList: {
+    handler: async function (request, h) {
+      const pois = await Poidb.find().sort("categories").populate("person").lean();
+
+      return h.view("adminPoiList", {
+        title: "ADMIN: POI of Islands",
+        pois: pois
+      });
+    },
+  },
 };
 
 module.exports = POI;
