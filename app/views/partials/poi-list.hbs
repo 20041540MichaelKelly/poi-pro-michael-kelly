@@ -1,4 +1,4 @@
-<div class="uk-margin uk-width-2xlarge uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+<div class="uk-margin uk-width-5xlarge uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
     <table class="uk-table">
         <caption>
             Places of Interest
@@ -17,17 +17,19 @@
             <tr>
                 <td> {{name}} </td>
                 <td> {{description}} </td>
+                <td> {{location}} </td>
+                <td> {{weather}}</td>
                 <td> <img src="{{imagefile}}"></td>
                 <td> {{categories}}</td>
                 <td> {{person.firstName}} {{person.lastName}}</td>
                 <td>
                     <form action="/delete/{{_id}}" method="POST" >
-                        <button class="uk-button uk-button-danger">Delete</button>
+                        <button class="uk-button uk-button-danger"><i class="fas fa-trash-alt"></i></button>
                     </form>
                 </td>
                 <td>
                     <form action="/edit/{{_id}}" method="GET" >
-                        <button class="uk-button uk-button-primary">Edit</button>
+                        <button class="uk-button uk-button-primary"><i class="fas fa-edit"></i></button>
                     </form>
                 </td>
             </tr>

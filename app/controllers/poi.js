@@ -22,20 +22,10 @@ const POI = {
   poiList: {
     handler: async function (request, h) {
       const pois = await Poidb.find().sort("categories").populate("person").lean();
-      let weather = null;
-      const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${pois.location}&appid=${apiKey}`;
-      try {
-        const response = await axios.get(weatherRequest);
-        if (response.status == 200) {
-          weather = response.data
-        }
-      } catch (error) {
-        console.log(error);
-      }
+
       return h.view("poiList", {
         title: "POI of Islands",
-        pois: pois,
-       // weather: weather
+        pois: pois
       });
     },
   },
@@ -70,11 +60,18 @@ const POI = {
         const id = request.auth.credentials.id;
         const user = await User.findById(id);
         console.log(id);
+        let weathers = null;
 
         if (Object.keys(file).length > 0) {
           await writeFile('./public/temp.img', file);
           const ans = await cloudinary.uploader.upload('./public/temp.img');
-
+          const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${data.location}&appid=${apiKey}`;
+          const response = await axios.get(weatherRequest);
+          if (response.status == 200) {
+            weathers = response.data
+            console.log(weathers);
+          }
+          console.log(weathers);
           const newPoi = new Poidb({
             name: data.name,
             description: data.description,
@@ -82,7 +79,7 @@ const POI = {
             imagefile: ans.secure_url,
             person: user._id,
             categories: data.categories,
-           // weather: weather.weather[0].description
+            weather: weathers.weather[0].description,
             });
           await newPoi.save();
           console.log(newPoi);
@@ -186,7 +183,7 @@ const POI = {
       });
       //const noOf = no.countDocuments({firstName:"Michael"});
       console.log(noOf);
-      console.log(noOfPoi)
+      console.log(noOfPoi);
       return h.view("adminHome", { title: "Admin Home", userss: userss.firstName, noOf: noOf, noOfPoi: noOfPoi  });
     },
   },
@@ -217,24 +214,20 @@ const POI = {
       // }
     }
   },
-
-
-  handler: async function getWeather() {
-    let weather = {};
-    const response = await axios.get(weatherRequest)
-    if (response.status == 200) {
-      weather = response.data
+  readWeather: {
+    handler: async function(location) {
+      let weather = null;
+      const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`;
+      try {
+        const response = await axios.get(weatherRequest);
+        if (response.status == 200) {
+          weather = response.data
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return weather;
     }
-
-    const report = {
-      feelsLike : Math.round(weather.main.feels_like -273.15),
-      clouds : weather.weather[0].description,
-      windSpeed: weather.wind.speed,
-      windDirection: weather.wind.deg,
-      visibility: weather.visibility/1000,
-      humidity : weather.main.humidity
-    };
-   // renderWeather(report)
   }
 };
 
