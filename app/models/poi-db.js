@@ -9,6 +9,7 @@ const poiSchema = new Schema({
   location: String,
   imagefile: String,
   categories: String,
+  weather: String,
   person: {
     type: Schema.Types.ObjectId,
     ref: 'User',
