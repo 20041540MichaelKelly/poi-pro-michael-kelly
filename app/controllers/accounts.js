@@ -8,13 +8,13 @@ const Accounts = {
   index: {
     auth: false,
     handler: function(request, h) {
-      return h.view('main', { title: 'Welcome to Donations' });
+      return h.view('main', { title: 'Welcome to POI' });
     }
   },
   showSignup: {
     auth: false,
     handler: function(request, h) {
-      return h.view('signup', { title: 'Sign up for Donations' });
+      return h.view('signup', { title: 'Sign up for POIs' });
     }
   },
   signup: {
