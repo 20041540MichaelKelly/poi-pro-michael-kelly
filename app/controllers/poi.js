@@ -125,7 +125,6 @@ const POI = {
           request.payload,
           { new: true }
         ).lean();
-        //return h.response(result);
         console.log(result);
         return h.view("updatePoi", { poi: result });
       } catch (error) {
@@ -139,11 +138,12 @@ const POI = {
         name: Joi.string().required(),
         description: Joi.string().required(),
         location: Joi.string().required(),
+        //imagefile: Joi.any().required(),
       },
       options: {
         abortEarly: false,
       },
-      failAction: function (request, h, error) {
+      failAction: function(request, h, error) {
         return h
           .view("updatePoi", {
             title: "Sign up error",
@@ -153,43 +153,49 @@ const POI = {
           .code(400);
       },
     },
-    auth: false,
+    // auth: false,
     handler: async function(request, h) {
       const id = request.params.id;
       const use = await Poidb.findById(id);
       const data = request.payload;
       let weathers = null;
+     // let answ = null;
       const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${data.location}&appid=${apiKey}`;
       const response = await axios.get(weatherRequest);
       if (response.status == 200) {
-        weathers = response.data
-        console.log(weathers);
+        weathers = response.data;
+       // console.log(weathers);
       }
-      console.log(weathers);
+      //console.log(weathers);
+
+    /*  const file = data.imagefile;
+      console.log(file);
+
+        await writeFile('./public/temp.img', file);
+        const answ = await cloudinary.uploader.upload('./public/temp.img');
+        console.log(answ.secure_url);
+*/
 
         use.name = data.name;
         use.description = data.description;
         use.location = data.location;
         use.weather = weathers.weather[0].description;
+      //  use.imagefile = answ.secure_url;
 
         await use.save();
+        return h.redirect("/poiList");
+      }
 
-      return h.redirect("/poiList");
-    }
   },
 
   adminHome: {
     handler: async function (request, h) {
       const id = request.auth.credentials.id;
       const userss = await User.findById(id);
-      //console.log(userss);
       const noOf = await User.find().lean().countDocuments(function(err, count){
-       // console.log("Number of docs: ", count );
       });
       const noOfPoi = await Poidb.find().lean().countDocuments(function(err, count){
-        // console.log("Number of docs: ", count );
       });
-      //const noOf = no.countDocuments({firstName:"Michael"});
       console.log(noOf);
       console.log(noOfPoi);
       return h.view("adminHome", { title: "Admin Home", userss: userss.firstName, noOf: noOf, noOfPoi: noOfPoi  });
@@ -213,8 +219,6 @@ const POI = {
         const id = req.params.id;
         console.log(id);
         await User.findByIdAndDelete(id).lean();
-        //  return h.response(user);
-        // await user.save();
         return h.redirect("/userList");
       } catch (err) {
         return h.view("main", { errors: [{ message: err.message }] });
