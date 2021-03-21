@@ -84,6 +84,33 @@
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616073223/medium-Valentia-Island-800_fkolss.webp",
       "categories": "East",
       "person": "->user.Sandra"
+    },
+    "six": {
+      "name": "Blasket Islands",
+      "description": "The six islands of the archipelago are easily visible from the coast of the Dingle Peninsula. Until the 1950’s, they were inhabited entirely by an Irish-speaking community who was evacuated in 1953 due to the harsh island conditions.",
+      "location": "Kerry",
+      "weather": "Sunny",
+      "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355427/Overlooking-blaskets_opt_eacrwg.jpg",
+      "categories": "West",
+      "person": "->user.Mick"
+    },
+    "seven": {
+      "name": "Aran Islands",
+      "description": "Of all the islands of Ireland on this list, the Aran Islands in Galway Bay are one of the most famous names on this list. With about 1,200 inhabitants, the Aran Islands are the most populated islands on this list.",
+      "location": "Galway",
+      "weather": "Over Cast",
+      "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355591/G0015162-D-n-Aonghasa_opt_q2nonk.jpg",
+      "categories": "West",
+      "person": "->user.Sarah"
+    },
+    "eight": {
+      "name": "Clare Islands",
+      "description": "At the mouth of Clew Bay, Clare Island is the birthplace of the feared and respected pirate queen Granuiale (Grace O’Malley in English), who ruled the waters of Clew Bay and Galway Bay for 30-odd years in the 16th century.",
+      "location": "Mayo",
+      "weather": "Rainy",
+      "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355591/G0015162-D-n-Aonghasa_opt_q2nonk.jpg",
+      "categories": "West",
+      "person": "->user.Amanda"
     }
   }
 }
