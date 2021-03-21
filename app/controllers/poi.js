@@ -21,7 +21,6 @@ const POI = {
   poiList: {
     handler: async function (request, h) {
       const pois = await Poidb.find().sort("categories").populate("person").lean();
-
       return h.view("poiList", {
         title: "POI of Islands",
         pois: pois
@@ -135,10 +134,10 @@ const POI = {
   updatePoi: {
     validate: {
       payload: {
-        name: Joi.string().required(),
-        description: Joi.string().required(),
-        location: Joi.string().required(),
-        //imagefile: Joi.any().required(),
+        name: Joi.string(),
+        description: Joi.string(),
+        location: Joi.string(),
+        imagefile: Joi.any(),
       },
       options: {
         abortEarly: false,
@@ -157,34 +156,27 @@ const POI = {
     handler: async function(request, h) {
       const id = request.params.id;
       const use = await Poidb.findById(id);
+      const ids = request.auth.credentials.id;
+      const user = await User.findById(ids);
       const data = request.payload;
+      console.log(user.firstName);
+
       let weathers = null;
-     // let answ = null;
+
       const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${data.location}&appid=${apiKey}`;
       const response = await axios.get(weatherRequest);
       if (response.status == 200) {
-        weathers = response.data;
-       // console.log(weathers);
-      }
-      //console.log(weathers);
+          weathers = response.data;
+        }
+          use.name = data.name;
+          use.description = data.description;
+          use.location = data.location;
+          use.weather = weathers.weather[0].description;
+          use.editor = user.firstName;
 
-    /*  const file = data.imagefile;
-      console.log(file);
-
-        await writeFile('./public/temp.img', file);
-        const answ = await cloudinary.uploader.upload('./public/temp.img');
-        console.log(answ.secure_url);
-*/
-
-        use.name = data.name;
-        use.description = data.description;
-        use.location = data.location;
-        use.weather = weathers.weather[0].description;
-      //  use.imagefile = answ.secure_url;
-
-        await use.save();
-        return h.redirect("/poiList");
-      }
+          await use.save();
+          return h.redirect("/poiList");
+    }
 
   },
 
