@@ -1,5 +1,5 @@
 "use strict";
-
+const Boom = require("@hapi/boom");
 const Mongoose = require("mongoose");
 const Schema = Mongoose.Schema;
 
@@ -14,19 +14,11 @@ userSchema.statics.findByEmail = function(email) {
   return this.findOne({ email : email});
 };
 
-
-userSchema.methods.comparePassword = function(candidatePassword) {
-  const isMatch = this.password === candidatePassword;
+userSchema.methods.comparePassword = function(password) {
+  const isMatch = this.password === password;
   if (!isMatch) {
-    throw Boom.unauthorized('Password mismatch');
-  }
-  return this;
-};
-
-userSchema.methods.adminEmail = function(adEmail) {
-  const isMatch = this.email === 'breda@gmail.com';
-  if (!isMatch) {
-    throw Boom.unauthorized('Password mismatch');
+    const msg = "Password does not match Email";
+    throw Boom.unauthorized(msg);
   }
   return this;
 };

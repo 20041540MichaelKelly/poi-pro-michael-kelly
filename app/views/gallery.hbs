@@ -1,5 +1,7 @@
-{{> main-menu _id="pindex" }}
-
+<div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
+    {{> title-card title="Image Gallery" subTitle="POI's List"}}
+    {{> admin-menu }}
+</div>
 <div class="uk-container uk-padding-small">
     <div class="uk-child-width-1-4@s uk-flex uk-flex-center" uk-grid uk-height-match="target: .uk-card">
         {{#each images}}

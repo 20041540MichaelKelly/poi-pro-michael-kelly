@@ -1,5 +1,5 @@
 <div class="uk-margin uk-width-2xlarge uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
-    <form class="uk-form-stacked uk-text-left" action="/updatePoi/{{poi._id}}" method="POST">
+    <form class="uk-form-stacked uk-text-left" action="/updatePoi/{{poi._id}}" method="POST" enctype="multipart/form-data">
         <div class="uk-grid uk-grid-stack">
             <div class="uk-width-1-2@m">
                 <div class="uk-margin">
@@ -18,6 +18,21 @@
                     <div class="uk-form-label">Location</div>
                     <div class="uk-form-controls">
                         <input class="uk-input" id="form-stacked-text" type="text" name="location" value="{{poi.location}}" placeholder="Location..." />
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-horizontal-text">Select Image</label>
+                    <div class="uk-form-controls">
+                        <input type="file" class="uk-input" name="imagefile" accept="image/png, image/jpeg">
+                    </div>
+                </div>
+                <div class="uk-margin uk-text-left">
+                    <div class="uk-form-label">Select Category</div>
+                    <div class="uk-form-controls">
+                        <label><input class="uk-radio" type="radio" name="categories" value="North" />North</label><br />
+                        <label><input class="uk-radio" type="radio" name="categories" value="South" />South</label><br />
+                        <label><input class="uk-radio" type="radio" name="categories" value="East" />East</label><br />
+                        <label><input class="uk-radio" type="radio" name="categories" value="West" />West</label><br />
                     </div>
                 </div>
                 <div class="uk-margin">
