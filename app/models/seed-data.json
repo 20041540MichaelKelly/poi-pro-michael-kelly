@@ -13,6 +13,12 @@
       "email": "breda@gmail.com",
       "password": "secret"
     },
+    "Myles": {
+      "firstName": "Myles",
+      "lastName": "Kelly",
+      "email": "myles@kelly.com",
+      "password": "admin"
+    },
     "Sandra": {
       "firstName": "Sandra",
       "lastName": "Kelly",
@@ -111,6 +117,15 @@
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355591/G0015162-D-n-Aonghasa_opt_q2nonk.jpg",
       "categories": "West",
       "person": "->user.Amanda"
+    },
+    "nine": {
+      "name": "The Saltee Islands",
+      "description": "The two unoccupied islands, The Great Saltee and The Little Saltee are unspoiled nature reserves that provide a sanctuary to one of the largest bird colonies in Ireland, and a thriving population of breeding grey seals.",
+      "location": "Wexford",
+      "weather": "Sunny",
+      "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616499875/saltee_oo3iyc.jpg",
+      "categories": "South",
+      "person": "->user.Mary"
     }
   }
 }
