@@ -10,24 +10,25 @@ const Boom = require("@hapi/boom");
 const Joi = require('@hapi/joi');
 const axios = require("axios");
 const apiKey = process.env.apiKey;
+const ImageStore = require('../utils/image-store');
 
 const POI = {
-  home: {
-    handler: async function (request, h) {
-      //const categories = await Categories.find().lean();
-      return h.view("home", { title: "Create a POI" });
+    home: {
+      handler: async function(request, h) {
+        //const categories = await Categories.find().lean();
+        return h.view("home", { title: "Create a POI" });
+      },
     },
-  },
-  poiList: {
-    handler: async function (request, h) {
-      const pois = await Poidb.find().sort("categories").populate("person").lean();
-      return h.view("poiList", {
-        title: "POI of Islands",
-        pois: pois
-      });
+    poiList: {
+      handler: async function(request, h) {
+        const pois = await Poidb.find().sort("categories").populate("person").lean();
+        return h.view("poiList", {
+          title: "POI of Islands",
+          pois: pois
+        });
+      },
     },
-  },
-  poiAdd: {
+    poiAdd: {
       validate: {
         payload: {
           name: Joi.string().required(),
@@ -39,7 +40,7 @@ const POI = {
         options: {
           abortEarly: false,
         },
-        failAction: function (request, h, error) {
+        failAction: function(request, h, error) {
           return h
             .view("home", {
               title: "Sign up error",
@@ -49,24 +50,22 @@ const POI = {
             .code(400);
         },
       },
-     // auth: false,
-    handler: async function (request, h) {
-      try {
-        const data = request.payload;
-        console.log(data);
-        const file = request.payload.imagefile;
-        const id = request.auth.credentials.id;
-        const user = await User.findById(id);
-        console.log(id);
-        let weathers = null;
-
-        if (Object.keys(file).length > 0) {
-          await writeFile('./public/temp.img', file);
-          const ans = await cloudinary.uploader.upload('./public/temp.img');
+      // auth: false,
+      handler: async function(request, h) {
+        try {
+          const data = request.payload;
+          console.log(data);
+          const file = request.payload.imagefile;
+          const id = request.auth.credentials.id;
+          const user = await User.findById(id);
+          console.log(id);
+          let weathers = null;
+          const ans = await ImageStore.uploadImage(file);
+          console.log(ans);
           const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${data.location}&appid=${apiKey}`;
           const response = await axios.get(weatherRequest);
           if (response.status == 200) {
-            weathers = response.data
+            weathers = response.data;
             console.log(weathers);
           }
           console.log(weathers);
@@ -78,16 +77,11 @@ const POI = {
             person: user._id,
             categories: data.categories,
             weather: weathers.weather[0].description,
-            });
+          });
           await newPoi.save();
           console.log(newPoi);
           return h.redirect('/poiList');
-        }
-        return h.view('poiList', {
-          title: 'List of POIs',
-          error: 'No file selected'
-        });
-      } catch (err) {
+      }catch(err) {
         console.log(err);
       }
     },
@@ -97,7 +91,6 @@ const POI = {
       maxBytes: 209715200,
       parse: true
     }
-
   },
   delete: {
     auth: false,
@@ -106,8 +99,6 @@ const POI = {
         const id = req.params.id;
         console.log(id);
         await Poidb.findByIdAndDelete(id).lean();
-        //  return h.response(user);
-        // await user.save();
         return h.redirect("/poiList");
       } catch (err) {
         return h.view("main", { errors: [{ message: err.message }] });
@@ -138,6 +129,7 @@ const POI = {
         description: Joi.string(),
         location: Joi.string(),
         imagefile: Joi.any(),
+        categories: Joi.string(),
       },
       options: {
         abortEarly: false,
@@ -154,30 +146,46 @@ const POI = {
     },
     // auth: false,
     handler: async function(request, h) {
-      const id = request.params.id;
-      const use = await Poidb.findById(id);
-      const ids = request.auth.credentials.id;
-      const user = await User.findById(ids);
-      const data = request.payload;
-      console.log(user.firstName);
+      try {
+        const id = request.params.id;
+        const use = await Poidb.findById(id);
+        const ids = request.auth.credentials.id;
+        const user = await User.findById(ids);
+        const data = request.payload;
+        console.log(user.firstName);
+        const file = request.payload.imagefile;
 
-      let weathers = null;
+        console.log(file);
+        let img = await ImageStore.uploadImage(file);
+        console.log(img);
 
-      const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${data.location}&appid=${apiKey}`;
-      const response = await axios.get(weatherRequest);
-      if (response.status == 200) {
+        let weathers = null;
+
+        const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${data.location}&appid=${apiKey}`;
+        const response = await axios.get(weatherRequest);
+        if (response.status == 200) {
           weathers = response.data;
         }
-          use.name = data.name;
-          use.description = data.description;
-          use.location = data.location;
-          use.weather = weathers.weather[0].description;
-          use.editor = user.firstName;
 
-          await use.save();
-          return h.redirect("/poiList");
+        use.name = data.name;
+        use.description = data.description;
+        use.location = data.location;
+        use.weather = weathers.weather[0].description;
+        use.imagefile = img.secure_url;
+        use.editor = user.firstName;
+
+        await use.save();
+        return h.redirect("/poiList");
+      }catch(err) {
+        console.log(err);
+      }
+    },
+    payload: {
+      multipart: true,
+      output: 'data',
+      maxBytes: 209715200,
+      parse: true
     }
-
   },
 
   adminHome: {
@@ -193,7 +201,6 @@ const POI = {
       return h.view("adminHome", { title: "Admin Home", userss: userss.firstName, noOf: noOf, noOfPoi: noOfPoi  });
     },
   },
-
   userList: {
     handler: async function (request, h) {
       const users = await User.find().lean();
@@ -221,7 +228,6 @@ const POI = {
   adminPoiList: {
     handler: async function (request, h) {
       const pois = await Poidb.find().sort("categories").populate("person").lean();
-
       return h.view("adminPoiList", {
         title: "ADMIN: POI of Islands",
         pois: pois

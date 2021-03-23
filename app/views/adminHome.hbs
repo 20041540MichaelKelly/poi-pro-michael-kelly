@@ -1,16 +1,13 @@
-<div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
+<div class="uk-flex uk-flex-center uk-width-3xlarge uk-flex-middle uk-grid-small" uk-grid>
     {{> title-card title="Places of Interests Admin Home" subTitle="Welcome to ADMIN Home"}}
     {{> admin-menu }}
 </div>
 
 <div class="uk-container uk-margin">
-    <div class="uk-child-width-expand uk-flex-center uk-flex-middle uk-text-center" uk-grid>
-        <div class="uk-position-large uk-position-bottom-center uk-overlay uk-overlay-default">
-            <img width="500" src="images/map5.jpg" />
-        </div>
+    <div class="uk-child-width-expand uk-flex-center uk-flex-middle uk-text-center">
         <div class="uk-position-large uk-position uk-overlay uk-overlay-default">
-            <h1 class="uk-heading-small">Hi {{userss}}</h1>
-            <a href="/userList"><i class="fas fa-male fa-3x"> {{noOf}}</i></a> | <a href="/adminPoiList"> <i class="fas fa-list-alt fa-3x"> {{noOfPoi}}</i></a>
+            {{> adminAnalytics}}
+            <img width="200" src="images/admin.jpg" />
         </div>
     </div>
 </div>

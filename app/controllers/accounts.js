@@ -89,23 +89,22 @@ const Accounts = {
     },
     handler: async function (request, h) {
       const { email, password } = request.payload;
-
       try {
         let user = await User.findByEmail(email);
 
         if (!user) {
-          const message = "Email address is not registered";
-          throw Boom.unauthorized(message);
-        } else if (email === "breda@gmail.com") {
-          console.log(email);
-          user.comparePassword(password);
-
-          request.cookieAuth.set({ id: user.id });
-          return h.redirect("/adminHome");
+            const message = "Email address is not registered";
+            throw Boom.unauthorized(message);
+        } else if (email === "breda@gmail.com" || email === "myles@kelly.com") {
+            console.log(email);
+            user.comparePassword(password);
+            request.cookieAuth.set({ id: user.id });
+            return h.redirect("/adminHome");
         } else {
-          user.comparePassword(password);
-          request.cookieAuth.set({ id: user.id });
-          return h.redirect("/home");}
+           user.comparePassword(password);
+            request.cookieAuth.set({ id: user.id });
+            return h.redirect("/home");
+          }
       } catch (err) {
         return h.view("login", { errors: [{ message: err.message }] });
       }
