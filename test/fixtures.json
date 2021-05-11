@@ -1,0 +1,31 @@
+{
+  "pois": [
+    {
+      "name": "Great Island",
+      "description": "The ancient name of the island was Oilean Ard na Neimheadh, the \"High (or important) island of Neimheadh\".",
+      "location": "Cork",
+      "weather": "Sunny",
+      "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616012222/temp_opqaaw.jpg",
+      "categories": "South",
+      "person": "->user.Sarah"
+    },
+    {
+      "name": "Cape Clear Island",
+      "description": "Referred to as Cléire by locals, this island is the southernmost inhabited part of Ireland, maintaining a population of a 100. On Cléire, rub shoulders with the Gaeltacht community or dig into its rich ancient archeology",
+      "location": "Cork",
+      "weather": "Cloudy",
+      "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
+      "categories": "South",
+      "person": "->user.Mick"
+    }
+  ],
+  "newPoi": {
+    "name": "Micks Island",
+    "description": "Referred to as Cléire by locals, this island is the southernmost inhabited part of Ireland, maintaining a population of a 100. On Cléire, rub shoulders with the Gaeltacht community or dig into its rich ancient archeology",
+    "location": "Cork",
+    "weather": "Cloudy",
+    "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
+    "categories": "South",
+    "person": "->user.Mick"
+  }
+}
