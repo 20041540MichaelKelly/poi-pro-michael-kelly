@@ -1,4 +1,25 @@
 {
+  "poiService": "http://localhost:4000",
+  "users": [
+    {
+      "firstName": "Ted",
+      "lastName": "Kelly",
+      "email": "ted@kelly.com",
+      "password": "secret"
+    },
+    {
+      "firstName": "Katie",
+      "lastName": "Kearns",
+      "email": "katie@kearns.com",
+      "password": "secret"
+    },
+    {
+      "firstName": "Dylan",
+      "lastName": "McDonald",
+      "email": "dylan@mcdonald.com",
+      "password": "secret"
+    }
+  ],
   "pois": [
     {
       "name": "Great Island",
@@ -7,7 +28,7 @@
       "weather": "Sunny",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616012222/temp_opqaaw.jpg",
       "categories": "South",
-      "person": "->user.Sarah"
+      "person": "609925ac536a031f403c809d"
     },
     {
       "name": "Cape Clear Island",
@@ -16,7 +37,7 @@
       "weather": "Cloudy",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
       "categories": "South",
-      "person": "->user.Mick"
+      "person": "609925ac536a031f403c809d"
     }
   ],
   "newPoi": {
@@ -26,6 +47,12 @@
     "weather": "Cloudy",
     "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
     "categories": "South",
-    "person": "->user.Mick"
+    "person": "609925ac536a031f403c809d"
+  },
+  "newUser": {
+    "firstName": "Maggie",
+    "lastName": "Simpson",
+    "email": "maggie@simpson.com",
+    "password": "secret"
   }
 }

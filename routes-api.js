@@ -1,9 +1,17 @@
-const Pois= require('./app/api/poi');
+const Poi= require('./app/api/poi');
+const Users= require('./app/api/users');
+const Images = require("./app/api/images");
 
 module.exports = [
-  { method: 'GET', path: '/api/poi', config: Pois.find },
-  { method: 'GET', path: '/api/poi/{id}', config: Pois.findOne },
-  { method: "POST", path: "/api/poi", config: Pois.create },
-  { method: "DELETE", path: "/api/poi/{id}", config: Pois.deleteOne },
-  { method: "DELETE", path: "/api/poi", config: Pois.deleteAll },
+  { method: "GET", path: "/api/poi", config: Poi.findAll },
+  { method: "GET", path: "/api/users/{id}/poi", config: Poi.findByPoi },
+
+
+  { method: "GET", path: "/api/users", config: Users.find },
+  { method: "GET", path: "/api/users/{id}", config: Users.findOne },
+  { method: "POST", path: "/api/users", config: Users.create },
+  { method: "DELETE", path: "/api/users/{_id}", config: Users.deleteOne },
+  { method: "DELETE", path: "/api/users", config: Users.deleteAll },
+
+  { method: "GET", path: "/api/images", config: Images.findAll }
 ];

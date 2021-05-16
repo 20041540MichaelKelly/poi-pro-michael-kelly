@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const Joi = require("@hapi/joi");
 
 
+
 const credentials = {
   cloud_name: process.env.name,
   api_key: process.env.key,
@@ -18,9 +19,9 @@ if (result.error) {
   process.exit(1);
 }
 
-
 const server = Hapi.server({
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 4000,
+  routes: { cors: true },
 });
 
 require('./app/models/db');
@@ -30,9 +31,11 @@ async function init() {
   await server.register(require('@hapi/vision'));
   await server.register(require('@hapi/cookie'));
 
+
   server.validator(require("@hapi/joi"));
 
   ImageStore.configure(credentials);
+
 
   server.auth.strategy('session', 'cookie', {
     cookie: {
