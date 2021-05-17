@@ -52,45 +52,27 @@ class PoiService {
     }
   }
 
-  async getCandidates() {
+  async makePoi(id, poi) {
     try {
-      const response = await axios.get(this.baseUrl + "/api/candidates");
+      const response = await axios.post(this.baseUrl + "/api/users/" + id + "/poi", poi);
       return response.data;
     } catch (e) {
       return null;
     }
   }
 
-  async getCandidate(id) {
+  async getPoi(id) {
     try {
-      const response = await axios.get(this.baseUrl + "/api/candidates/" + id);
+      const response = await axios.get(this.baseUrl + "/api/users/" + id + "/poi");
       return response.data;
     } catch (e) {
       return null;
     }
   }
 
-  async createPoi(newPoi) {
-    try {
-      const response = await axios.post(this.baseUrl + "/api/candidates", newCandidate);
-      return response.data;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async deleteAllPois() {
+  async deleteAllPoi() {
     try {
       const response = await axios.delete(this.baseUrl + "/api/poi");
-      return response.data;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async deleteOneCandidate(id) {
-    try {
-      const response = await axios.delete(this.baseUrl + "/api/candidates/" + id);
       return response.data;
     } catch (e) {
       return null;

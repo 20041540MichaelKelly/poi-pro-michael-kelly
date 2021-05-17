@@ -27,8 +27,7 @@
       "location": "Cork",
       "weather": "Sunny",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616012222/temp_opqaaw.jpg",
-      "categories": "South",
-      "person": "609925ac536a031f403c809d"
+      "categories": "South"
     },
     {
       "name": "Cape Clear Island",
@@ -36,8 +35,7 @@
       "location": "Cork",
       "weather": "Cloudy",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
-      "categories": "South",
-      "person": "609925ac536a031f403c809d"
+      "categories": "South"
     }
   ],
   "newPoi": {
