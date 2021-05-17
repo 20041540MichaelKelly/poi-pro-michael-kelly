@@ -70,6 +70,15 @@ class PoiService {
     }
   }
 
+  async getPois() {
+    try {
+      const response = await axios.get(this.baseUrl + "/api/poi");
+      return response.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
   async deleteAllPoi() {
     try {
       const response = await axios.delete(this.baseUrl + "/api/poi");
