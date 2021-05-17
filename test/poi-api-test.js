@@ -11,12 +11,24 @@ suite("POI API tests", function () {
 
   const poiService = new PoiService(fixtures.poiService);
 
-  setup(async function () {
-    poiService.deleteAllUsers();
-    poiService.deleteAllPoi();
+  suiteSetup(async function () {
+    await poiService.deleteAllUsers();
+    const returnedUser = await poiService.createUser(newUser);
+    const response = await poiService.authenticate(newUser);
   });
 
-  teardown(async function () {});
+  suiteTeardown(async function () {
+    await poiService.deleteAllUsers();
+    poiService.clearAuth();
+  });
+
+  setup(async function () {
+   await poiService.deleteAllPoi();
+  });
+
+  teardown(async function () {
+    await poiService.deleteAllPoi();
+  });
 
   test("create a POI", async function () {
     const returnedUser = await poiService.createUser(newUser);
@@ -41,7 +53,7 @@ suite("POI API tests", function () {
     }
   });
 
-/*  test("get POIs details", async function () {
+ /* test("get POIs details", async function () {
     for (let p of pois) {
       await poiService.makePoi(p);
     }
@@ -51,7 +63,7 @@ suite("POI API tests", function () {
     for (var i = 0; i < pois.length; i++) {
       assert(_.some([allPois[i]], pois[i]), "returnedPoi must be a superset of newPoi");
     }
-  }); */
+  });*/
 
   test("get all POIs empty", async function () {
     const allPois = await poiService.getPois();

@@ -11,6 +11,17 @@ suite("User API tests", function () {
 
   const poiService = new PoiService(fixtures.poiService);
 
+  suiteSetup(async function () {
+    await poiService.deleteAllUsers();
+    const returnedUser = await poiService.createUser(newUser);
+    const response = await poiService.authenticate(newUser);
+  });
+
+  suiteTeardown(async function () {
+    await poiService.deleteAllUsers();
+    poiService.clearAuth();
+  });
+
   setup(async function () {
     await poiService.deleteAllUsers();
   });

@@ -13,6 +13,7 @@ module.exports = [
   { method: "POST", path: "/api/users", config: Users.create },
   { method: "DELETE", path: "/api/users/{id}", config: Users.deleteOne },
   { method: "DELETE", path: "/api/users", config: Users.deleteAll },
+  { method: 'POST', path: '/api/users/authenticate', config: Users.authenticate },
 
   { method: "GET", path: "/api/images", config: Images.findAll }
 ];

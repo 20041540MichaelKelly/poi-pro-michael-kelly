@@ -44,8 +44,7 @@
     "location": "Cork",
     "weather": "Cloudy",
     "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
-    "categories": "South",
-    "person": "609925ac536a031f403c809d"
+    "categories": "South"
   },
   "newUser": {
     "firstName": "Maggie",

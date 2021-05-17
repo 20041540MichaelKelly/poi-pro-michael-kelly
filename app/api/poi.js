@@ -5,14 +5,18 @@ const Boom = require("@hapi/boom");
 
 const Poi = {
   findAll: {
-    auth: false,
+    auth: {
+      strategy: "jwt",
+    },
     handler: async function (request, h) {
       const pois = await POI.find();
       return pois;
     },
   },
   findByPoi: {
-    auth: false,
+    auth: {
+      strategy: "jwt",
+    },
     handler: async function(request, h) {
       const pIdd = request.params.id;
       console.log(pIdd);
@@ -22,7 +26,9 @@ const Poi = {
     },
   },
     makePoi: {
-      auth: false,
+      auth: {
+        strategy: "jwt",
+      },
       handler: async function (request, h) {
         let poi = new POI(request.payload);
         console.log(poi);
@@ -38,7 +44,9 @@ const Poi = {
       },
     },
     deleteAll: {
-      auth: false,
+      auth: {
+        strategy: "jwt",
+      },
       handler: async function (request, h) {
         await POI.deleteMany({});
         return { success: true };
