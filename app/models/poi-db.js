@@ -10,7 +10,10 @@ const poiSchema = new Schema({
   imagefile: String,
   categories: String,
   weather: String,
-  editor: String,
+  editor: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
   person: {
     type: Schema.Types.ObjectId,
     ref: 'User',

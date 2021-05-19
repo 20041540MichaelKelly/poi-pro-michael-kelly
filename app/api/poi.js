@@ -2,6 +2,15 @@
 const User = require("../models/user");
 const POI = require("../models/poi-db");
 const Boom = require("@hapi/boom");
+const utils = require("./utils.js");
+const cloudinary = require('cloudinary');
+const fs = require('fs');
+const util = require('util');
+const writeFile = util.promisify(fs.writeFile);
+const Joi = require('@hapi/joi');
+const axios = require("axios");
+const apiKey = process.env.apiKey;
+const ImageStore = require('../utils/image-store');
 
 const Poi = {
   findAll: {
@@ -9,7 +18,7 @@ const Poi = {
       strategy: "jwt",
     },
     handler: async function (request, h) {
-      const pois = await POI.find();
+      const pois = await POI.find().populate("person");
       return pois;
     },
   },
@@ -30,14 +39,12 @@ const Poi = {
         strategy: "jwt",
       },
       handler: async function (request, h) {
+        const userId = utils.getUserIdFromRequest(request);
         let poi = new POI(request.payload);
-        console.log(poi);
-        const user = await User.findOne({ _id: request.params.id });
-        console.log(user+'ooooo');
-        if (!user) {
-          return Boom.notFound("No User with this id");
-        }
-        poi.person = user._id;
+        let weathers = await utils.getWeather(poi);
+       // console.log(weathers);
+        poi.person = userId;
+        poi.weather = weathers;
         poi = await poi.save();
         console.log(poi);
         return poi;

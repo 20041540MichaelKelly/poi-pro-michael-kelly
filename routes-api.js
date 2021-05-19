@@ -5,7 +5,7 @@ const Images = require("./app/api/images");
 module.exports = [
   { method: "GET", path: "/api/poi", config: Poi.findAll },
   { method: "GET", path: "/api/users/{id}/poi", config: Poi.findByPoi },
-  { method: "POST", path: "/api/users/{id}/poi", config: Poi.makePoi },
+  { method: "POST", path: "/api/poi", config: Poi.makePoi },
   { method: "DELETE", path: "/api/poi", config: Poi.deleteAll },
 
   { method: "GET", path: "/api/users", config: Users.find },

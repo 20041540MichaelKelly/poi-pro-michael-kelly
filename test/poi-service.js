@@ -19,7 +19,7 @@ class PoiService {
   async getUser(id) {
     try {
       const response = await axios.get(this.baseUrl + "/api/users/" + id);
-      return response.data;
+    //  return response.data;
     } catch (e) {
       return null;
     }
@@ -54,7 +54,7 @@ class PoiService {
 
   async makePoi(id, poi) {
     try {
-      const response = await axios.post(this.baseUrl + "/api/users/" + id + "/poi", poi);
+      const response = await axios.post(this.baseUrl + "/api/poi", poi);
       return response.data;
     } catch (e) {
       return null;

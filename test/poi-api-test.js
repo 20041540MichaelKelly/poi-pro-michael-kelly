@@ -24,10 +24,11 @@ suite("POI API tests", function () {
 
   setup(async function () {
    await poiService.deleteAllPoi();
+ //  await poiService.deleteAllUsers();
   });
 
   teardown(async function () {
-    await poiService.deleteAllPoi();
+ //   await poiService.deleteAllPoi();
   });
 
   test("create a POI", async function () {
