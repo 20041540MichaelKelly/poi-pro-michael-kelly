@@ -7,6 +7,8 @@ const poiSchema = new Schema({
   name: String,
   description: String,
   location: String,
+  lat: Number,
+  lng: Number,
   imagefile: String,
   categories: String,
   weather: String,

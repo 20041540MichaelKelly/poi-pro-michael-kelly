@@ -3,6 +3,12 @@
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 const axios = require("axios");
+const cloudinary = require('cloudinary');
+const fs = require('fs');
+const util = require('util');
+const writeFile = util.promisify(fs.writeFile);
+
+
 
 exports.createToken = function (user) {
   return jwt.sign({ id: user._id, email: user.email }, 'secretpasswordnotrevealedtoanyone', {
@@ -63,4 +69,11 @@ exports.getWeather = async function (poi) {
     weathers = null;
   }
   return weathers;
+};
+
+
+exports.uploadImage = async function(file) {
+  await writeFile('./public/temp.img', file);
+  const res = await cloudinary.uploader.upload('./public/temp.img');
+  return res;
 };

@@ -3,13 +3,6 @@ const User = require("../models/user");
 const POI = require("../models/poi-db");
 const Boom = require("@hapi/boom");
 const utils = require("./utils.js");
-const cloudinary = require('cloudinary');
-const fs = require('fs');
-const util = require('util');
-const writeFile = util.promisify(fs.writeFile);
-const Joi = require('@hapi/joi');
-const axios = require("axios");
-const apiKey = process.env.apiKey;
 const ImageStore = require('../utils/image-store');
 
 const Poi = {
@@ -41,9 +34,16 @@ const Poi = {
       handler: async function (request, h) {
         const userId = utils.getUserIdFromRequest(request);
         let poi = new POI(request.payload);
+        let file = request.payload.imagefile;
+        console.log(file);
+
         let weathers = await utils.getWeather(poi);
-       // console.log(weathers);
+       // const getTheImage = utils.getImageAfterUpload(file);
+       // console.log(getTheImage);
+        const ans = await ImageStore.uploadImage(file);
+
         poi.person = userId;
+        poi.imagefile = ans.secure_url;
         poi.weather = weathers;
         poi = await poi.save();
         console.log(poi);
