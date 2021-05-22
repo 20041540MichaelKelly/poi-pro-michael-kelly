@@ -1,5 +1,6 @@
 "use strict";
 const User = require("../models/user");
+const Location = require("../models/location");
 const POI = require("../models/poi-db");
 const Boom = require("@hapi/boom");
 const utils = require("./utils.js");
@@ -11,7 +12,7 @@ const Poi = {
       strategy: "jwt",
     },
     handler: async function (request, h) {
-      const pois = await POI.find().populate("person");
+      const pois = await POI.find().populate("location").populate("person").lean();
       return pois;
     },
   },
@@ -34,15 +35,26 @@ const Poi = {
       handler: async function (request, h) {
         const userId = utils.getUserIdFromRequest(request);
         let poi = new POI(request.payload);
+       // let loc = new Location(request.payload);
+        console.log(poi);
         let file = request.payload.imagefile;
-        console.log(file);
-
-        let weathers = await utils.getWeather(poi);
+        let location  = request.payload.location;
+        let loc = new Location(request.payload);
+        let weathers = await utils.getWeather(location);
        // const getTheImage = utils.getImageAfterUpload(file);
-       // console.log(getTheImage);
+        console.log(location.lng);
         const ans = await ImageStore.uploadImage(file);
-
+        console.log(userId);
+        console.log(ans.secure_url);
+        console.log(weathers);
         poi.person = userId;
+        loc.lat = location.lat;
+        loc.lng = location.lng;
+        loc = await loc.save();
+        let locId = loc._id;
+      //  poi.lat = location.lat;
+      //  poi.lon = location.lng;
+        poi.location = locId;
         poi.imagefile = ans.secure_url;
         poi.weather = weathers;
         poi = await poi.save();
@@ -50,6 +62,17 @@ const Poi = {
         return poi;
       },
     },
+  deletePoi: {
+    auth: {
+      strategy: "jwt",
+    },
+    handler: async function (request, h) {
+      let poiId = new POI(request.params.id);
+      console.log(poiId);
+      await POI.delete({poiId});
+      return { success: true };
+    },
+  },
     deleteAll: {
       auth: {
         strategy: "jwt",

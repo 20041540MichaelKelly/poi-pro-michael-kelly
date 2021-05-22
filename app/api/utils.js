@@ -51,18 +51,25 @@ exports.getUserIdFromRequest = function (request) {
   return userId;
 };
 
-exports.getWeather = async function (poi) {
-  let location = null;
+exports.getWeather = async function (location) {
+  console.log('yo');
+  let lat= null;
+  let lon = null;
   let weathers = null;
   try {
-     location = poi.location;
+     lat = location.lat;
+     lon = location.lng;
+    console.log(lat);
     const apiKey = "d5891296b7768edd9f570dec3aa42a4f";
-    const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`;
+    const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    console.log(weatherRequest);
     const response = await axios.get(weatherRequest);
     if (response.status == 200) {
       weathers = response.data;
+
       weathers = weathers.weather[0].description;
-      //console.log(weathers);
+      console.log(weathers);
+
     }
    // console.log(weathers);
   } catch (e) {

@@ -67,6 +67,24 @@ const Users = {
     },
   },
 
+  update: {
+    auth: false,
+    handler: async function (request, h) {
+      const userEdit = request.payload;
+      const userId = utils.getUserIdFromRequest(request);
+      const user = await User.findById(userId);
+      user.firstName = userEdit.firstName;
+      user.lastName = userEdit.lastName;
+      user.email = userEdit.email;
+      user.password = userEdit.password;
+      await user.save();
+      if (user) {
+        return { success: true };
+      }
+      return Boom.notFound("id not found");
+    },
+  },
+
   authenticate: {
     auth: false,
     handler: async function (request, h) {
