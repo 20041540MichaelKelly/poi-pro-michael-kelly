@@ -6,11 +6,19 @@ const Schema = Mongoose.Schema;
 const poiSchema = new Schema({
   name: String,
   description: String,
-  location: String,
+/*  lat: String,
+  lon: String, */
+  location: {
+    type: Schema.Types.ObjectId,
+    ref: 'Location'
+},
   imagefile: String,
   categories: String,
   weather: String,
-  editor: String,
+  editor: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
   person: {
     type: Schema.Types.ObjectId,
     ref: 'User',

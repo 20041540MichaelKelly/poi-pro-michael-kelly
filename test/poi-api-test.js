@@ -1,88 +1,98 @@
 "use strict";
 
 const assert = require("chai").assert;
-const axios = require("axios");
+const PoiService = require("./poi-service");
+const fixtures = require("./fixtures.json");
+const _ = require("lodash");
 
 suite("POI API tests", function () {
-  test("get pois", async function () {
-    const response = await axios.get("http://localhost:3000/api/poi");
-    const pois = response.data;
-    assert.equal(9, pois.length);
+  let pois = fixtures.pois;
+  let newUser = fixtures.newUser;
 
-    assert.equal(pois[0].name, "Great Island");
-    assert.equal(pois[0].weather, "Sunny");
-    assert.equal(pois[0].location, "Cork");
+  const poiService = new PoiService(fixtures.poiService);
 
-    assert.equal(pois[1].name, "Cape Clear Island");
-    assert.equal(pois[1].weather, "Cloudy");
-    assert.equal(pois[1].location, "Cork");
+  suiteSetup(async function () {
+    await poiService.deleteAllUsers();
+    const returnedUser = await poiService.createUser(newUser);
+    const response = await poiService.authenticate(newUser);
   });
 
-  test("get one poi", async function () {
-    let response = await axios.get("http://localhost:3000/api/poi");
-    const pois = response.data;
-    assert.equal(9, pois.length);
+  suiteTeardown(async function () {
+    await poiService.deleteAllUsers();
+    poiService.clearAuth();
+  });
 
-    const onePoiUrl = "http://localhost:3000/api/poi/" + pois[0]._id;
-    response = await axios.get(onePoiUrl);
-    const onePoi = response.data;
+  setup(async function () {
+   await poiService.deleteAllPoi();
+ //  await poiService.deleteAllUsers();
+  });
 
-    assert.equal(onePoi.name, "Great Island");
-    assert.equal(onePoi.weather, "Sunny");
-    assert.equal(onePoi.location, "Cork");
+  teardown(async function () {
+ //   await poiService.deleteAllPoi();
   });
 
   test("create a POI", async function () {
-    const poiUrl = "http://localhost:3000/api/poi";
-    const newPoi = {
-      name: "Comeragh Island",
-      description: "Nice",
-      location: "Waterford",
-      weather: "Raining",
-      imagefile: "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616012222/temp_opqaaw.jpg",
-      categories: "South",
-      person: "->user.Sarah"
-    };
-
-    const response = await axios.post(poiUrl, newPoi);
-    console.log(response);
-    const returnedPoi = response.data;
-    assert.equal(201, response.status);
-
-    assert.equal(returnedPoi.name, "Comeragh Island");
-    assert.equal(returnedPoi.location, "Waterford");
-    assert.equal(returnedPoi.weather, "Raining");
-    assert.equal(returnedPoi.imagefile, "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616012222/temp_opqaaw.jpg");
-    assert.equal(returnedPoi.categories, "South");
-    assert.equal(returnedPoi.person, "2d3e757365722e5361726168");
+    const returnedUser = await poiService.createUser(newUser);
+    const hey = await poiService.makePoi(returnedUser._id, pois[1]);
+    console.log(hey);
+    const returnedPoi = await poiService.getPoi(returnedUser._id);
+    //console.log(returnedUser._id);
+    assert.equal(returnedPoi.length, 1);
+    assert(_.some([returnedPoi[0]], pois[1]), "returned poi must be a superset of poi");
   });
 
-  test("delete a POI", async function () {
-    let response = await axios.get("http://localhost:3000/api/poi");
-    let pois = response.data;
-    const originalSize = pois.length;
+  test("create multiple POIs", async function () {
+    const returnedUser = await poiService.createUser(newUser);
+    for (var i = 0; i < pois.length; i++) {
+      await poiService.makePoi(returnedUser._id, pois[i]);
+    }
 
-    const onePoiUrl = "http://localhost:3000/api/poi/" + pois[9]._id;
-    response = await axios.get(onePoiUrl);
-    const onePoi = response.data;
-    assert.equal(onePoi.name, "Comeragh Island");
-
-    response = await axios.delete("http://localhost:3000/api/poi/" + pois[0]._id);
-    assert.equal(response.data.success, true);
-
-    response = await axios.get("http://localhost:3000/api/poi");
-    pois = response.data;
-    assert.equal(pois.length, originalSize - 1);
+    const returnedPois = await poiService.getPoi(returnedUser._id);
+    assert.equal(returnedPois.length, pois.length);
+    for (var i = 0; i < pois.length; i++) {
+      assert(_.some([returnedPois[i]], pois[i]), "returned POI must be a superset of POI");
+    }
   });
 
-  test("delete all Pois", async function () {
-    let response = await axios.get("http://localhost:3000/api/poi");
-    let pois = response.data;
-    const originalSize = pois.length;
-    assert(originalSize > 0);
-    response = await axios.delete("http://localhost:3000/api/poi");
-    response = await axios.get("http://localhost:3000/api/poi");
-    pois = response.data;
-    assert.equal(pois.length, 0);
+ /* test("get POIs details", async function () {
+    for (let p of pois) {
+      await poiService.makePoi(p);
+    }
+
+    const allPois = await poiService.getPois();
+    console.log(allPois);
+    for (var i = 0; i < pois.length; i++) {
+      assert(_.some([allPois[i]], pois[i]), "returnedPoi must be a superset of newPoi");
+    }
+  });*/
+
+  test("get all POIs empty", async function () {
+    const allPois = await poiService.getPois();
+    assert.equal(allPois.length, 0);
   });
+
+  test("get invalid POI", async function () {
+    const c1 = await poiService.getPoi("1234");
+    assert.isNull(c1);
+    const c2 = await poiService.getPoi("12345678901234567890123");
+    console.log(c2);
+    assert.isNull(c2);
+  });
+
+  test("delete all POIs", async function () {
+    const returnedUser = await poiService.createUser(newUser);
+    for (var i = 0; i < pois.length; i++) {
+      await poiService.makePoi(returnedUser._id, pois[i]);
+    }
+
+    const d1 = await poiService.getPoi(returnedUser._id);
+    assert.equal(d1.length, pois.length);
+    await poiService.deleteAllPoi();
+    const d2 = await poiService.getPoi(returnedUser._id);
+    assert.equal(d2.length, 0);
+  });
+
+
+
+
 });

@@ -5,6 +5,7 @@ const fs = require('fs');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
 
+
 const ImageStore = {
   configure: function() {
     const credentials = {
@@ -21,8 +22,10 @@ const ImageStore = {
   },
 
   uploadImage: async function(file) {
+
     await writeFile('./public/temp.img', file);
-    const res = await cloudinary.uploader.upload('./public/temp.img');
+    const res = await cloudinary.uploader.upload('./public/temp.img',
+      function(error, result) {console.log(result, error); });
     return res;
   },
 
