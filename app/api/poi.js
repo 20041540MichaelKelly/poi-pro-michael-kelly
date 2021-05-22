@@ -52,8 +52,7 @@ const Poi = {
         loc.lng = location.lng;
         loc = await loc.save();
         let locId = loc._id;
-      //  poi.lat = location.lat;
-      //  poi.lon = location.lng;
+
         poi.location = locId;
         poi.imagefile = ans.secure_url;
         poi.weather = weathers;
@@ -71,6 +70,23 @@ const Poi = {
       console.log(poiId);
       await POI.delete({poiId});
       return { success: true };
+    },
+  },
+  editPoi: {
+    auth: false,
+    handler: async function (request, h) {
+      const userEdit = request.payload;
+      const userId = utils.getUserIdFromRequest(request);
+      const user = await User.findById(userId);
+      user.firstName = userEdit.firstName;
+      user.lastName = userEdit.lastName;
+      user.email = userEdit.email;
+      user.password = userEdit.password;
+      await user.save();
+      if (user) {
+        return { success: true };
+      }
+      return Boom.notFound("id not found");
     },
   },
     deleteAll: {
