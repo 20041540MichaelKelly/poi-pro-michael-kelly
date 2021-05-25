@@ -1,6 +1,7 @@
 "use strict";
 
 const axios = require("axios");
+const POI = require("../app/models/poi-db");
 
 class PoiService {
   constructor(baseUrl) {
@@ -19,7 +20,7 @@ class PoiService {
   async getUser(id) {
     try {
       const response = await axios.get(this.baseUrl + "/api/users/" + id);
-    //  return response.data;
+      return response.data;
     } catch (e) {
       return null;
     }
@@ -54,7 +55,7 @@ class PoiService {
 
   async deletePoi(id) {
     try {
-      const response = await axios.delete(this.baseUrl + "/api/poi/deletePoi" + id);
+      const response = await axios.delete(this.baseUrl + "/api/poi/" + id);
       return response.data;
     } catch (e) {
       return null;
@@ -63,7 +64,22 @@ class PoiService {
 
   async makePoi(id, poi) {
     try {
+      let uId = request.params.id;
+       poi = new POI(request.payload);
+      poi.person = uId;
+      poi = await poi.save();
+      console.log(poi);
       const response = await axios.post(this.baseUrl + "/api/poi", poi);
+      return response.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async createPoi(id, poi) {
+    try {
+      const response = await axios.post(this.baseUrl + "/api/users/" + id + "/poi", poi);
+    // console.log(response.data);
       return response.data;
     } catch (e) {
       return null;
@@ -91,6 +107,15 @@ class PoiService {
   async deleteAllPoi() {
     try {
       const response = await axios.delete(this.baseUrl + "/api/poi");
+      return response.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async createLocation(location) {
+    try {
+      const response = await axios.post(this.baseUrl + "/api/location", location);
       return response.data;
     } catch (e) {
       return null;

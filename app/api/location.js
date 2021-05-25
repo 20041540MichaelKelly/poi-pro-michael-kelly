@@ -21,6 +21,22 @@ const Location = {
       }
     },
   },
+
+  createLocation: {
+    auth: {
+      strategy: "jwt",
+    },
+    handler: async function (request, h) {
+
+      const newLocation = new Locations(request.payload);
+      const loc = await newLocation.save();
+      if (loc) {
+        return h.response(loc).code(201);
+      }
+      return Boom.badImplementation("error creating user");
+    },
+  }
+
 };
 
 module.exports = Location;

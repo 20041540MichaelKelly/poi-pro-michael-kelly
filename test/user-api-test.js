@@ -2,11 +2,13 @@
 
 const assert = require("chai").assert;
 const PoiService = require("./poi-service");
+const utils = require("../app/api/utils");
 const fixtures = require("./fixtures.json");
 const _ = require("lodash");
 
 suite("User API tests", function () {
   let users = fixtures.users;
+
   let newUser = fixtures.newUser;
 
   const poiService = new PoiService(fixtures.poiService);
@@ -30,7 +32,9 @@ suite("User API tests", function () {
 
   test("get user", async function () {
     const u1 = await poiService.createUser(newUser);
-    const u2 = await poiService.getUser(u1._id);
+    let id = u1._id;
+    const u2 = await poiService.getUser(id);
+    console.log(u2);
     assert.deepEqual(u1, u2);
   });
 

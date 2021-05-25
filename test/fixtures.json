@@ -20,31 +20,106 @@
       "password": "secret"
     }
   ],
+  "location":
+      {
+        "lat": "52.336918",
+        "lng": "-6.463338"
+      }
+  ,
   "pois": [
     {
-      "name": "Great Island",
-      "description": "The ancient name of the island was Oilean Ard na Neimheadh, the \"High (or important) island of Neimheadh\".",
-      "location": "Cork",
-      "weather": "Sunny",
-      "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616012222/temp_opqaaw.jpg",
-      "categories": "South"
-    },
+        "name": "Great Island",
+        "description": "The ancient name of the island was Oilean Ard na Neimheadh, the \"High (or important) island of Neimheadh\".",
+        "location": "location[0]",
+        "weather": "Sunny",
+        "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616012222/temp_opqaaw.jpg",
+        "categories": "South",
+        "person": "users[0]"
+      },
     {
-      "name": "Cape Clear Island",
-      "description": "Referred to as Cléire by locals, this island is the southernmost inhabited part of Ireland, maintaining a population of a 100. On Cléire, rub shoulders with the Gaeltacht community or dig into its rich ancient archeology",
-      "location": "Cork",
-      "weather": "Cloudy",
-      "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
-      "categories": "South"
-    }
+        "name": "Cape Clear Island",
+        "description": "Referred to as Cléire by locals, this island is the southernmost inhabited part of Ireland, maintaining a population of a 100. On Cléire, rub shoulders with the Gaeltacht community or dig into its rich ancient archeology",
+        "location":
+          {
+            "lat": "52.336918",
+            "lng": "-6.463338"
+          },
+        "weather": "Cloudy",
+        "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
+        "categories": "South"
+      },
+      {
+        "name": "Garnish Island",
+        "description": "Garnish Island is a sort of paradisal place, resembling more of a Roman villa than an Irish island. Tucked into the pretty Bantry Bay of West Cork, Garnish Island is world-renowned for its divine gardens, alluring designs and rare specimens",
+        "location": "->location.Cork",
+        "weather": "Rain",
+        "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616067136/web-Garnish-Island_vff1ll.jpg",
+        "categories": "South",
+        "person": "->user.Mick"
+      },
+      {
+        "name": "The Skellig Islands",
+        "description": "Most likely the most famous islands of Ireland on this list, the Skelligs are two scraggy rocks 13km off the Iveragh Peninsula. Considered a UNESCO World Heritage site, the Skelligs may be familiar as they are an important filming location for both the 2014 and 2017 Star Wars Films",
+        "location": "->location.Waterford",
+        "weather": "Sunny",
+        "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616068460/Skellig-Islands-Aug-2014-RS-26_opt_qi6ifc.jpg",
+        "categories": "South",
+        "person": "->user.Mary"
+      },
+    {
+        "name": "The Skellig Islands",
+        "description": "Just off the coast of the Iveargh Peninsula (also known as the Ring of Kerry) and accessible by bridge, Valentia Island features the celebrated Valentia Lighthouse at Cromwell Point – one of The Twelve Great Lighthouses of Ireland.",
+        "location": "->location.Limerick",
+        "weather": "Sunny",
+        "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616073223/medium-Valentia-Island-800_fkolss.webp",
+        "categories": "East",
+        "person": "->user.Sandra"
+      },
+      {
+        "name": "Blasket Islands",
+        "description": "The six islands of the archipelago are easily visible from the coast of the Dingle Peninsula. Until the 1950’s, they were inhabited entirely by an Irish-speaking community who was evacuated in 1953 due to the harsh island conditions.",
+        "location": "->location.Waterford",
+        "weather": "Sunny",
+        "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355427/Overlooking-blaskets_opt_eacrwg.jpg",
+        "categories": "West",
+        "person": "->user.Mick"
+      },
+      {
+        "name": "Aran Islands",
+        "description": "Of all the islands of Ireland on this list, the Aran Islands in Galway Bay are one of the most famous names on this list. With about 1,200 inhabitants, the Aran Islands are the most populated islands on this list.",
+        "location": "->location.Wexford",
+        "weather": "Over Cast",
+        "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355591/G0015162-D-n-Aonghasa_opt_q2nonk.jpg",
+        "categories": "West",
+        "person": "->user.Sarah"
+      },
+      {
+        "name": "Clare Islands",
+        "description": "At the mouth of Clew Bay, Clare Island is the birthplace of the feared and respected pirate queen Granuiale (Grace O’Malley in English), who ruled the waters of Clew Bay and Galway Bay for 30-odd years in the 16th century.",
+        "location": "->location.Limerick",
+        "weather": "Rainy",
+        "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355591/G0015162-D-n-Aonghasa_opt_q2nonk.jpg",
+        "categories": "West",
+        "person": "->user.Amanda"
+      },
+     {
+        "name": "The Saltee Islands",
+        "description": "The two unoccupied islands, The Great Saltee and The Little Saltee are unspoiled nature reserves that provide a sanctuary to one of the largest bird colonies in Ireland, and a thriving population of breeding grey seals.",
+        "location": "->location.Wexford",
+        "weather": "Sunny",
+        "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616499875/saltee_oo3iyc.jpg",
+        "categories": "South",
+        "person": "->user.Mary"
+      }
   ],
   "newPoi": {
     "name": "Micks Island",
     "description": "Referred to as Cléire by locals, this island is the southernmost inhabited part of Ireland, maintaining a population of a 100. On Cléire, rub shoulders with the Gaeltacht community or dig into its rich ancient archeology",
-    "location": "Cork",
+    "location": "->location.Wexford",
     "weather": "Cloudy",
     "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
-    "categories": "South"
+    "categories": "South",
+    "person": "->user.Mary"
   },
   "newUser": {
     "firstName": "Maggie",
