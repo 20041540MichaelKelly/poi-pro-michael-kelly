@@ -2,6 +2,7 @@
 const Boom = require("@hapi/boom");
 const Mongoose = require("mongoose");
 const Schema = Mongoose.Schema;
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
   firstName: String,
@@ -14,11 +15,11 @@ userSchema.statics.findByEmail = function(email) {
   return this.findOne({ email : email});
 };
 
-userSchema.methods.comparePassword = function(password) {
-  const isMatch = this.password === password;
+userSchema.methods.comparePassword = async function(candidatePassword) {
+  console.log('yo..');
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);         // EDITED
   if (!isMatch) {
-    const msg = "Password does not match Email";
-    throw Boom.unauthorized(msg);
+    throw Boom.unauthorized('Password mismatch');
   }
   return this;
 };

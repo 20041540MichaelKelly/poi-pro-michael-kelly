@@ -23,9 +23,7 @@ const Location = {
   },
 
   createLocation: {
-    auth: {
-      strategy: "jwt",
-    },
+    auth: false,
     handler: async function (request, h) {
 
       const newLocation = new Locations(request.payload);

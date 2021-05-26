@@ -5,10 +5,11 @@ const PoiService = require("./poi-service");
 const fixtures = require("./fixtures.json");
 const _ = require("lodash");
 
-suite("Donation API tests", function () {
+suite("Poi API tests", function () {
   let pois = fixtures.pois;
   let newUser = fixtures.newUser;
-  let loc = fixtures.location;
+  let location = fixtures.location;
+  console.log(location);
 
   const poiService = new PoiService(fixtures.poiService);
 
@@ -24,20 +25,18 @@ suite("Donation API tests", function () {
   });
 
   test("create a poi", async function() {
-    console.log(pois[1]);
-    const returnedUser = await poiService.deletePoi(pois[1].id);
-    if (returnedUser) {
-      console.log(pois[1]);
-    }
+    const returnedUser = await poiService.createUser(newUser);
+    const returnedLoc = await poiService.createLocation(location);
+    console.log(returnedUser._id);
+    console.log(returnedLoc._id);
+    console.log(pois[0]);
 
-    const lis = await poiService.getPoi(pois[1]._id);
-    console.log(lis);
-
-
+    const ans = await poiService.createPoi(returnedUser._id, returnedLoc._id, pois[0]);
+    console.log(ans);
+    const returnedPois = await poiService.getPoi(returnedUser._id);
+    assert.equal(returnedPois.length, 1);
+    assert(_.some([returnedPois[0]], pois[0]), "returned donation must be a superset of donation");
   });
-
-
-
 
 });
 

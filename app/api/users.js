@@ -3,6 +3,8 @@
 const User = require("../models/user");
 const Boom = require("@hapi/boom");
 const utils = require('./utils.js');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const Users = {
   find: {
@@ -35,7 +37,17 @@ const Users = {
   create: {
     auth: false,
     handler: async function (request, h) {
-      const newUser = new User(request.payload);
+      const hash = await bcrypt.hash(request.payload.password, saltRounds);
+      console.log(hash);
+      const newUser = new User({
+        firstName: request.payload.firstName,
+        lastName: request.payload.lastName,
+        email: request.payload.email,
+        password: hash
+
+      });
+      console.log(hash);
+      newUser.password = hash;
       const user = await newUser.save();
       if (user) {
         return h.response(user).code(201);
@@ -73,10 +85,11 @@ const Users = {
       const userEdit = request.payload;
       const userId = utils.getUserIdFromRequest(request);
       const user = await User.findById(userId);
+      const hash = await bcrypt.hash(request.payload.password, saltRounds);
       user.firstName = userEdit.firstName;
       user.lastName = userEdit.lastName;
       user.email = userEdit.email;
-      user.password = userEdit.password;
+      user.password = hash;
       await user.save();
       if (user) {
         return { success: true };
@@ -89,15 +102,18 @@ const Users = {
     auth: false,
     handler: async function (request, h) {
       try {
+        console.log(request.payload.password);
+        const hash = await bcrypt.hash(request.payload.password, saltRounds);
+        console.log(hash);
         const user = await User.findOne({ email: request.payload.email });
         if (!user) {
           return Boom.unauthorized("User not found");
-        } else if (user.password !== request.payload.password) {
-          return Boom.unauthorized("Invalid password");
-        } else {
-          const token = utils.createToken(user);
-          return h.response({ success: true, token: token }).code(201);
         }
+        await user.comparePassword(request.payload.password);
+        console.log('yo');
+        const token = utils.createToken(user);
+        return h.response({ success: true, token: token }).code(201);
+
       } catch (err) {
         return Boom.notFound("internal db failure");
       }

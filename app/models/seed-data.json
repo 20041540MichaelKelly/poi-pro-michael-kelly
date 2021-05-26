@@ -5,13 +5,13 @@
       "firstName": "Mary",
       "lastName": "Kearns",
       "email": "mary@kearns.com",
-      "password": "boo"
+      "password": "$2b$10$lT.wgVMqYi/zATKaOnCIy.voW3BdhDwAYUXXtREv5lKPx/PlqyMKe"
     },
     "Breda": {
       "firstName": "Breda",
       "lastName": "Kelly",
       "email": "breda@gmail.com",
-      "password": "secret"
+      "password": "$2b$10$lT.wgVMqYi/zATKaOnCIy.voW3BdhDwAYUXXtREv5lKPx/PlqyMKe"
     },
     "Myles": {
       "firstName": "Myles",
@@ -23,7 +23,7 @@
       "firstName": "Sandra",
       "lastName": "Kelly",
       "email": "sandra@kelly.com",
-      "password": "secret"
+      "password": "$2b$10$lT.wgVMqYi/zATKaOnCIy.voW3BdhDwAYUXXtREv5lKPx/PlqyMKe"
     },
     "Amanda": {
       "firstName": "Amanda",
@@ -35,13 +35,13 @@
       "firstName": "Mick",
       "lastName": "Kelly",
       "email": "mick@kelly.com",
-      "password": "secret"
+      "password": "$2b$10$OfgOd30e3T9RstxqtdUbi.A8NHMcPVlSRwEypnh/GDt4JiS16yqUG"
     },
     "Sarah": {
       "firstName": "Sarah",
       "lastName": "Kearns",
       "email": "sandra@kearns.com",
-      "password": "secret"
+      "password": "$2b$10$lT.wgVMqYi/zATKaOnCIy.voW3BdhDwAYUXXtREv5lKPx/PlqyMKe"
     }
   },
   "location": {
@@ -61,6 +61,14 @@
     "Waterford": {
       "lat": " 52.2583",
       "lng": "-7.1119"
+    },
+    "Kilkenny": {
+      "lat": " 52.6542 ",
+      "lng": "-7.2522"
+    },
+    "Clare": {
+      "lat": " 52.8333 ",
+      "lng": "-9.0000"
     }
   },
   "poi-db": {
@@ -72,6 +80,7 @@
       "weather": "Sunny",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616012222/temp_opqaaw.jpg",
       "categories": "South",
+      "rate": "4",
       "person": "->user.Sarah"
     },
     "two": {
@@ -81,6 +90,7 @@
       "weather": "Cloudy",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",
       "categories": "South",
+      "rate": "1",
       "person": "->user.Mick"
     },
     "three": {
@@ -90,15 +100,17 @@
       "weather": "Rain",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616067136/web-Garnish-Island_vff1ll.jpg",
       "categories": "South",
+      "rate": "4",
       "person": "->user.Mick"
     },
     "four": {
-      "name": "The Skellig Islands",
+      "name": "The Islands",
       "description": "Most likely the most famous islands of Ireland on this list, the Skelligs are two scraggy rocks 13km off the Iveragh Peninsula. Considered a UNESCO World Heritage site, the Skelligs may be familiar as they are an important filming location for both the 2014 and 2017 Star Wars Films",
-      "location": "->location.Waterford",
+      "location": "->location.Clare",
       "weather": "Sunny",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616068460/Skellig-Islands-Aug-2014-RS-26_opt_qi6ifc.jpg",
       "categories": "South",
+      "rate": "2",
       "person": "->user.Mary"
     },
     "five": {
@@ -108,15 +120,17 @@
       "weather": "Sunny",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616073223/medium-Valentia-Island-800_fkolss.webp",
       "categories": "East",
+      "rate": "5",
       "person": "->user.Sandra"
     },
     "six": {
       "name": "Blasket Islands",
       "description": "The six islands of the archipelago are easily visible from the coast of the Dingle Peninsula. Until the 1950’s, they were inhabited entirely by an Irish-speaking community who was evacuated in 1953 due to the harsh island conditions.",
-      "location": "->location.Waterford",
+      "location": "->location.Kilkenny",
       "weather": "Sunny",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355427/Overlooking-blaskets_opt_eacrwg.jpg",
       "categories": "West",
+      "rate": "3",
       "person": "->user.Mick"
     },
     "seven": {
@@ -126,6 +140,7 @@
       "weather": "Over Cast",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355591/G0015162-D-n-Aonghasa_opt_q2nonk.jpg",
       "categories": "West",
+      "rate": "4",
       "person": "->user.Sarah"
     },
     "eight": {
@@ -135,6 +150,7 @@
       "weather": "Rainy",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616355591/G0015162-D-n-Aonghasa_opt_q2nonk.jpg",
       "categories": "West",
+      "rate": "5",
       "person": "->user.Amanda"
     },
     "nine": {
@@ -144,6 +160,7 @@
       "weather": "Sunny",
       "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616499875/saltee_oo3iyc.jpg",
       "categories": "South",
+      "rate": "2",
       "person": "->user.Mary"
     }
   }

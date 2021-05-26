@@ -30,11 +30,9 @@
     {
         "name": "Great Island",
         "description": "The ancient name of the island was Oilean Ard na Neimheadh, the \"High (or important) island of Neimheadh\".",
-        "location": "location[0]",
         "weather": "Sunny",
         "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616012222/temp_opqaaw.jpg",
-        "categories": "South",
-        "person": "users[0]"
+        "categories": "South"
       },
     {
         "name": "Cape Clear Island",
@@ -42,7 +40,7 @@
         "location":
           {
             "lat": "52.336918",
-            "lng": "-6.463338"
+            "lng": "-6.895445"
           },
         "weather": "Cloudy",
         "imagefile": "https://res.cloudinary.com/michaelkelly20041540/image/upload/v1616066331/Cape-Clear-Island_eymdpe.webp",

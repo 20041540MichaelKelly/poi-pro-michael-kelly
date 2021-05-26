@@ -62,11 +62,16 @@ class PoiService {
     }
   }
 
-  async makePoi(id, poi) {
+  async makePoi(uId,lId, poi) {
     try {
-      let uId = request.params.id;
-       poi = new POI(request.payload);
+      let uId = uId;
+      let lId = lId;
+
+
+      poi = new POI(request.payload);
+      poi.location = lId;
       poi.person = uId;
+
       poi = await poi.save();
       console.log(poi);
       const response = await axios.post(this.baseUrl + "/api/poi", poi);
@@ -76,9 +81,19 @@ class PoiService {
     }
   }
 
-  async createPoi(id, poi) {
+  async createPoi(uId, lId, poi) {
     try {
-      const response = await axios.post(this.baseUrl + "/api/users/" + id + "/poi", poi);
+      let uId = uId;
+      let lId = lId;
+
+      console.log('hi');
+      poi = new POI(request.payload);
+      poi.location = lId;
+      poi.person = uId;
+
+      poi = await poi.save();
+      console.log(poi);
+      const response = await axios.post(this.baseUrl + "/api/users/" + uId + "/location/" + lId + "/poi", poi);
     // console.log(response.data);
       return response.data;
     } catch (e) {

@@ -5,6 +5,7 @@ const POI = require("../models/poi-db");
 const Boom = require("@hapi/boom");
 const utils = require("./utils.js");
 const ImageStore = require('../utils/image-store');
+const Joi = require('@hapi/joi');
 
 const Poi = {
   findAll: {
@@ -29,9 +30,9 @@ const Poi = {
     },
   },
   makePoi: {
-    auth: {
-      strategy: "jwt",
-    },
+      auth: {
+        strategy: "jwt",
+      },
     handler: async function(request, h) {
       const userId = utils.getUserIdFromRequest(request);
       let poi = new POI(request.payload);
@@ -59,6 +60,8 @@ const Poi = {
       poi = await poi.save();
       console.log(poi);
       return poi;
+
+
     },
   },
   deleteOne: {
@@ -113,10 +116,12 @@ const Poi = {
       const pIdd = request.params.id;
       console.log(pIdd);
       let poi = new POI(request.payload);
+      let loc = new Location(request.payload);
+      let location = request.payload.location;
       poi.person = pIdd;
       loc.lat = location.lat;
       loc.lng = location.lng;
-      const pois = await POI.find({ person: pIdd });
+      const pois = await POI.findOne({ person: pIdd });
       console.log(pois);
       return pois;
     },
