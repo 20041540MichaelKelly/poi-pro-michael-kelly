@@ -26,16 +26,44 @@ suite("Poi API tests", function () {
 
   test("create a poi", async function() {
     const returnedUser = await poiService.createUser(newUser);
-    const returnedLoc = await poiService.createLocation(location);
+    //const returnedLoc = await poiService.createLocation(location);
     console.log(returnedUser._id);
-    console.log(returnedLoc._id);
+    //console.log(returnedLoc);
     console.log(pois[0]);
+    await poiService.createPoi(returnedUser._id, pois[0]);
 
-    const ans = await poiService.createPoi(returnedUser._id, returnedLoc._id, pois[0]);
-    console.log(ans);
     const returnedPois = await poiService.getPoi(returnedUser._id);
+    console.log(returnedPois);
     assert.equal(returnedPois.length, 1);
-    assert(_.some([returnedPois[0]], pois[0]), "returned donation must be a superset of donation");
+    console.log('ho');
+    assert(_.some([returnedPois[0]], pois[0]), "returned poi must be a superset of poi");
+  });
+
+  test("create multiple Pois", async function () {
+    const returnedUser = await poiService.createUser(newUser);
+    for (var i = 0; i < pois.length; i++) {
+      await poiService.createPoi(returnedUser._id, pois[i]);
+    }
+    console.log(pois);
+
+    const returnedPois = await poiService.getPoi(returnedUser._id);
+    assert.equal(returnedPois.length, pois.length);
+    for (var i = 0; i < pois.length; i++) {
+      assert(_.some([returnedPois[i]], pois[i]), "returned donation must be a superset of donation");
+    }
+  });
+
+  test("delete all donations", async function () {
+    const returnedUser = await poiService.createUser(newUser);
+    for (var i = 0; i < pois.length; i++) {
+      await poiService.createPoi(returnedUser._id, pois[i]);
+    }
+
+    const p1 = await poiService.getPoi(returnedUser._id);
+    assert.equal(p1.length, pois.length);
+    await poiService.deleteAllPoi();
+    const p2 = await poiService.getPoi(returnedUser._id);
+    assert.equal(p2.length, 0);
   });
 
 });

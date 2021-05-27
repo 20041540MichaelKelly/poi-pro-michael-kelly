@@ -21,7 +21,7 @@ exports.decodeToken = function (token) {
   var userInfo = {};
   try {
     var decoded = jwt.verify(token, 'secretpasswordnotrevealedtoanyone');
-    userInfo.id = decoded.id;
+    userInfo.userId = decoded.id;
     userInfo.email = decoded.email;
   } catch (e) {
   }

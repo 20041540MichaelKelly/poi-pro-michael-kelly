@@ -33,7 +33,19 @@ const Location = {
       }
       return Boom.badImplementation("error creating user");
     },
-  }
+  },
+
+  getLocation: {
+    auth: false,
+    handler: async function(request, h) {
+      console.log("Test2");
+      const pIdd = request.params.id;
+      console.log(pIdd);
+      let loc= await Locations.find({ _id: pIdd });
+      console.log(loc);
+      return loc;
+    },
+  },
 
 };
 

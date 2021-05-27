@@ -14,10 +14,7 @@ const poiSchema = new Schema({
   categories: String,
   rate: Number,
   weather: String,
-  editor: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  },
+  editor: String,
   person: {
     type: Schema.Types.ObjectId,
     ref: 'User',

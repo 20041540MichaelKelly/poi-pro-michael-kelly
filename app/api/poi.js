@@ -18,13 +18,12 @@ const Poi = {
     },
   },
   findByPoi: {
-    auth: {
-      strategy: "jwt",
-    },
+    auth: false,
     handler: async function(request, h) {
+      console.log("Test2");
       const pIdd = request.params.id;
       console.log(pIdd);
-      const pois = await POI.find({ person: pIdd });
+      let pois = await POI.find({ person: pIdd });
       console.log(pois);
       return pois;
     },
@@ -36,13 +35,13 @@ const Poi = {
     handler: async function(request, h) {
       const userId = utils.getUserIdFromRequest(request);
       let poi = new POI(request.payload);
-      // let loc = new Location(request.payload);
+
       console.log(poi);
       let file = request.payload.imagefile;
       let location = request.payload.location;
       let loc = new Location(request.payload);
       let weathers = await utils.getWeather(location);
-      // const getTheImage = utils.getImageAfterUpload(file);
+
       console.log(location.lng);
       const ans = await ImageStore.uploadImage(file);
       console.log(userId);
@@ -83,12 +82,17 @@ const Poi = {
     auth: false,
     handler: async function(request, h) {
       const poiEdit = request.payload;
-      const poId = poiEdit._id;
-      const poi = await POI.findById(poId);
+      console.log(poiEdit);
+      const poId = poiEdit.id;
+      console.log(poId);
+      let file = poiEdit.imagefile;
+      const ans = await ImageStore.uploadImage(file);
+      let poi = await POI.findByIdAndUpdate({ _id: poId });
       poi.name = poiEdit.name;
       poi.description = poiEdit.description;
-    //  user.email = userEdit.email;
-    //  user.password = userEdit.password;
+      poi.imagefile = ans.secure_url;
+      poi.categories = poiEdit.categories;
+      poi.editor = poiEdit.person;
       await poi.save();
       if (poi) {
         return { success: true };
@@ -97,9 +101,7 @@ const Poi = {
     },
   },
   deleteAll: {
-    auth: {
-      strategy: "jwt",
-    },
+    auth: false,
     handler: async function(request, h) {
       await POI.deleteMany({});
       return { success: true };
@@ -109,21 +111,22 @@ const Poi = {
 
 
   createPoi: {
-    auth: {
-      strategy: "jwt",
-    },
+    auth: false,
     handler: async function(request, h) {
       const pIdd = request.params.id;
       console.log(pIdd);
       let poi = new POI(request.payload);
-      let loc = new Location(request.payload);
-      let location = request.payload.location;
-      poi.person = pIdd;
-      loc.lat = location.lat;
-      loc.lng = location.lng;
-      const pois = await POI.findOne({ person: pIdd });
-      console.log(pois);
-      return pois;
+
+    //  let loc = new Location(request.payload);
+    //  let location = request.payload.location;
+     // poi.person = pIdd;
+
+      const user = await User.findOne({ _id: pIdd });
+      poi.person = user._id;
+      poi = await poi.save();
+      console.log(poi);
+      return poi;
+
     },
   },
 };

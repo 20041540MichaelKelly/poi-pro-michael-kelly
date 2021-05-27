@@ -12,7 +12,7 @@ const Users = {
       strategy: "jwt",
     },
     handler: async function (request, h) {
-      const users = await User.find();
+      const users = await User.find().lean();
       return users;
     },
   },
@@ -47,7 +47,7 @@ const Users = {
 
       });
       console.log(hash);
-      newUser.password = hash;
+      //newUser.password = hash;
       const user = await newUser.save();
       if (user) {
         return h.response(user).code(201);
@@ -110,13 +110,36 @@ const Users = {
           return Boom.unauthorized("User not found");
         }
         await user.comparePassword(request.payload.password);
-        console.log('yo');
         const token = utils.createToken(user);
         return h.response({ success: true, token: token }).code(201);
 
       } catch (err) {
         return Boom.notFound("internal db failure");
       }
+    },
+  },
+
+  createUserTest: {
+    auth: {
+      strategy: "jwt",
+    },
+    handler: async function (request, h) {
+      //const hash = await bcrypt.hash(request.payload.password, saltRounds);
+     // console.log(hash);
+      const newUser = new User({
+        firstName: request.payload.firstName,
+        lastName: request.payload.lastName,
+        email: request.payload.email,
+        password: request.payload.password
+
+      });
+      console.log(hash);
+      //newUser.password = hash;
+      const user = await newUser.save();
+      if (user) {
+        return h.response(user).code(201);
+      }
+      return Boom.badImplementation("error creating user");
     },
   },
 };

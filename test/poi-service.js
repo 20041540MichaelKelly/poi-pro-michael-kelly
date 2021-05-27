@@ -62,15 +62,14 @@ class PoiService {
     }
   }
 
-  async makePoi(uId,lId, poi) {
+  async makePoi(location,person, poi) {
     try {
-      let uId = uId;
-      let lId = lId;
+
 
 
       poi = new POI(request.payload);
-      poi.location = lId;
-      poi.person = uId;
+      poi.location = location;
+      poi.person = person;
 
       poi = await poi.save();
       console.log(poi);
@@ -81,20 +80,16 @@ class PoiService {
     }
   }
 
-  async createPoi(uId, lId, poi) {
+  async createPoi(id, poi) {
     try {
-      let uId = uId;
-      let lId = lId;
 
-      console.log('hi');
-      poi = new POI(request.payload);
-      poi.location = lId;
-      poi.person = uId;
+      console.log("hi there 3h");
+      console.log(id);
 
-      poi = await poi.save();
       console.log(poi);
-      const response = await axios.post(this.baseUrl + "/api/users/" + uId + "/location/" + lId + "/poi", poi);
-    // console.log(response.data);
+
+      const response = await axios.post(this.baseUrl + "/api/users/" + id +  "/poi", poi);
+     console.log("sorted");
       return response.data;
     } catch (e) {
       return null;
@@ -103,6 +98,8 @@ class PoiService {
 
   async getPoi(id) {
     try {
+      console.log("test1");
+      console.log(id);
       const response = await axios.get(this.baseUrl + "/api/users/" + id + "/poi");
       return response.data;
     } catch (e) {
@@ -141,6 +138,26 @@ class PoiService {
     try {
       const response = await axios.post(this.baseUrl + "/api/users/authenticate", user);
       axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
+      return response.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async deleteAllLocations() {
+    try {
+      const response = await axios.delete(this.baseUrl + "/api/location");
+      return response.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async getLocation(id) {
+    try {
+      console.log("test1");
+      console.log(id);
+      const response = await axios.get(this.baseUrl + "/api/location/" + id );
       return response.data;
     } catch (e) {
       return null;
